@@ -1,0 +1,46 @@
+<!--<header-no-mobile></header-no-mobile>-->
+
+<div id="apps-container">
+    <div>
+        <span class="anchor" id="force-directed-curved"></span>
+        <a>Force-directed Curved graph</a>
+        <app-d3-force-directed-curved-graph-viewer class="apps"></app-d3-force-directed-curved-graph-viewer>
+    </div>
+    <div>
+        <span class="anchor" id="force-directed"></span>
+        <a>Force-directed graph</a>
+        <app-d3-force-directed-graph-viewer class="apps"></app-d3-force-directed-graph-viewer>
+    </div>
+    <div>
+        <span class="anchor" id="indented-tree"></span>
+        <a>Indented tree</a>
+        <app-d3-indented-tree-viewer class="apps"></app-d3-indented-tree-viewer>
+    </div>
+    <div>
+        <span class="anchor" id="arc-diagram"></span>
+        <a>Arc diagram</a>
+        <app-d3-arc-diagram-viewer class="apps"></app-d3-arc-diagram-viewer>
+    </div>
+    <div>
+        <span class="anchor" id="tidy-tree"></span>
+        <a>Tidy tree</a>
+        <app-d3-tidy-tree-viewer class="apps"></app-d3-tidy-tree-viewer>
+    </div>
+</div>
+
+<!-- must be here after apps-container to avoid css dropdown menu disappears when mouse moves off  -->
+<div>
+    <div id="main">
+        <app-main class="apps"></app-main>
+    </div>
+</div>
+<div id="menu" class="dropdown">
+    <button class="dropbtn">Choose a Viewer</button>
+    <div class="dropdown-content">
+        <a href="#force-directed-curved">Force-directed Curved graph</a>
+        <a href="#force-directed">Force-directed graph</a>
+        <a href="#indented-tree">Indented tree</a>
+        <a href="#arc-diagram">Arc diagram</a>
+        <a href="#tidy-tree">Tidy tree</a>
+    </div>
+</div>

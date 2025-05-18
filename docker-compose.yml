@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  integration-graph-ui:
+    image: <your-dockerhub-username>/integration-graph-ui-angular:latest
+    ports:
+      - "8080:80"
+    restart: always

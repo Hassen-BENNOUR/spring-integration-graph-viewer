@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "integration-graph-ui.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "integration-graph-ui.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "integration-graph-ui.name" . }}
+    spec:
+      containers:
+        - name: integration-graph-ui
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 80

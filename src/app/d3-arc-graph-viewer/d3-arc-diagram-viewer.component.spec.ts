@@ -1,0 +1,47 @@
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { D3ArcDiagramViewerComponent } from './d3-arc-diagram-viewer.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FormsModule } from '@angular/forms';
+import { NgxGraphModule } from '@swimlane/ngx-graph';
+
+describe('D3ArcDiagramViewerComponent', () => {
+  let component: D3ArcDiagramViewerComponent;
+  let fixture: ComponentFixture<D3ArcDiagramViewerComponent>;
+
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [ D3ArcDiagramViewerComponent ],
+      imports: [ HttpClientTestingModule, FormsModule, NgxGraphModule ]
+    }).compileComponents();
+  }));
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(D3ArcDiagramViewerComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('filters nodes by search term', () => {
+    component.rawNodes = [
+      { id: '1', name: 'filterA' },
+      { id: '2', name: 'routerB' }
+    ];
+    component.searchTerm = 'filter';
+    component.updateGraph();
+    expect(component.nodes.length).toBe(1);
+    expect(component.nodes[0].label).toBe('filterA');
+  });
+
+  it('selects a node by id', () => {
+    component.rawNodes = [
+      { id: '1', name: 'filterA' },
+      { id: '2', name: 'routerB' }
+    ];
+    component.onNodeClick('2');
+    expect(component.selectedNode.name).toBe('routerB');
+  });
+});

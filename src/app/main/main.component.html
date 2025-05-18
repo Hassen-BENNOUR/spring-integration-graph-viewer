@@ -1,0 +1,27 @@
+<div class="header">
+    <div>
+        <input type="text" [(ngModel)]="graphURL" placeholder="Load integration..."
+               class="header_elements"/>
+        <button (click)="loadGraph()" formtarget="_blank">Load</button>
+
+        <input type="text" [(ngModel)]="searchTerm" (input)="filter()" placeholder="Rechercher..."
+               class="header_elements"/>
+
+        <div class="dropdown">
+            <button class="dropbtn">Choose a component</button>
+            <div class="dropdown-content">
+                <a *ngFor="let node of rawNodes" [routerLink]="" (click)="onNodeClick(node.id)">
+                    {{ node.name }}
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="selectedNode" class="selectedNode border-t pt-4">
+    <button (click)="resetSelectedNode()" formtarget="_blank">Close</button>
+    <h2 class="text-xl font-bold">{{ selectedNode.name }}</h2>
+    <img [src]="getImageUrl(selectedNode.componentType, selectedNode.integrationPatternType)"
+         alt="{{ selectedNode.name }}" class="mb-2">
+    <pre>{{ selectedNode | json }}</pre>
+</div>
