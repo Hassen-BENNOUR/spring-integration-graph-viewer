@@ -1,5 +1,5 @@
 apiVersion: v2
-name: integration-graph-ui
+name: spring-integration-graph-viewer
 description: Helm chart for Integration Graph UI Angular
 type: application
 version: 0.1.0

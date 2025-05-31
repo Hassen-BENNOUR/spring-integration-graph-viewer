@@ -1,27 +1,46 @@
-<div class="header">
+<div class="header" xmlns="http://www.w3.org/1999/html">
     <div>
-        <input type="text" [(ngModel)]="graphURL" placeholder="Load integration..."
+        <input type="text" [(ngModel)]="this.loadGraphService.graphURL" placeholder="Load integration..."
                class="header_elements"/>
-        <button (click)="loadGraph()" formtarget="_blank">Load</button>
-
-        <input type="text" [(ngModel)]="searchTerm" (input)="filter()" placeholder="Rechercher..."
-               class="header_elements"/>
+        <button (click)="this.loadGraphService.loadGraph()" formtarget="_blank">Load</button>
 
         <div class="dropdown">
             <button class="dropbtn">Choose a component</button>
-            <div class="dropdown-content">
-                <a *ngFor="let node of rawNodes" [routerLink]="" (click)="onNodeClick(node.id)">
-                    {{ node.name }}
-                </a>
+            <div id="componentsDropdown" class="dropdown-content" ng-controller="ComponentController">
+                <input type="text" placeholder="Search a component..." id="input"
+                       [(ngModel)]="this.loadGraphService.searchTerm" (input)="this.loadGraphService.filter()">
+                @for (groups of groupsNodes | keyvalue; track groups.key) {
+                    <div>
+                        <input (change)="this.loadGraphService.groupChange($event, groups.key)"
+                               [(ngModel)]="groups.value.selected"
+                               [(ngChecked)]="groups.value.selected" type="checkbox"
+                               [id]="'dropdown-groups-'+groups.key"
+                               name="{{groups.key}}"
+                               [value]="groups.key"/>
+                        <label>{{ groups.key }} (x{{ groups.value.group.length }})</label>
+                        <ul>
+                            @for (node of groups.value.group; track idx; let idx = $index) {
+                                <li>
+                                    <input (change)="this.loadGraphService.nodeChange($event, node.integrationPatternType)"
+                                           [(ngModel)]="node.selected" [(ngChecked)]="node.selected" type="checkbox"
+                                           [id]="'dropdown-node-'+node.nodeId" [name]="node.integrationPatternType"
+                                           [value]="node.name"/>
+                                    <label>
+                                        {{ node.name }}
+                                    </label>
+                                </li>
+                            }</ul>
+                    </div>
+                }
             </div>
         </div>
     </div>
 </div>
 
-<div *ngIf="selectedNode" class="selectedNode border-t pt-4">
-    <button (click)="resetSelectedNode()" formtarget="_blank">Close</button>
-    <h2 class="text-xl font-bold">{{ selectedNode.name }}</h2>
-    <img [src]="getImageUrl(selectedNode.componentType, selectedNode.integrationPatternType)"
-         alt="{{ selectedNode.name }}" class="mb-2">
-    <pre>{{ selectedNode | json }}</pre>
+<div *ngIf="this.loadGraphService.selectedNode" class="selectedNode border-t pt-4">
+    <button (click)="this.loadGraphService.resetSelectedNode()" formtarget="_blank">Close</button>
+    <h2 class="text-xl font-bold">{{ this.loadGraphService.selectedNode.name }}</h2>
+    <img [src]="this.loadGraphService.getImageUrl(this.loadGraphService.selectedNode.componentType, this.loadGraphService.selectedNode.integrationPatternType)"
+         alt="{{ this.loadGraphService.selectedNode.name }}" class="mb-2">
+    <pre>{{ this.loadGraphService.selectedNode | json }}</pre>
 </div>

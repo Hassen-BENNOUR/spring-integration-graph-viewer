@@ -124,9 +124,17 @@ body {
     overflow: scroll;
     display: none;
     position: absolute;
-    background-color: #f1f1f1;
+    background-color: #d5eaff;
     box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
+
+}
+
+.dropdown-content ul {
+    padding-inline-start: 40px;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
 }
 
 .dropdown-content a {

@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.integration.graph</groupId>
-  <artifactId>integration-graph-ui</artifactId>
+  <artifactId>spring-integration-graph-viewer</artifactId>
   <version>1.0.0</version>
   <packaging>pom</packaging>
 

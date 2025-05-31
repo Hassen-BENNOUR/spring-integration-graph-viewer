@@ -13,7 +13,7 @@ module.exports = function (config) {
       clearContext: false
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/integration-graph-ui'),
+      dir: require('path').join(__dirname, './coverage/spring-integration-graph-viewer'),
       subdir: '.',
       reporters: [
         { type: 'html' },

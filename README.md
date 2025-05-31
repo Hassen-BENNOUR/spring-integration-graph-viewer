@@ -1,6 +1,6 @@
 # Integration Graph UI (Angular)
 
-![CI](https://github.com/<your-username>/integration-graph-ui-angular/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/<your-username>/spring-integration-graph-viewer/actions/workflows/ci.yml/badge.svg)
 
 Cette application Angular permet de visualiser dynamiquement les composants EIP exposés par Spring Integration via l’endpoint `/integrationgraph`.
 
@@ -32,7 +32,7 @@ Accédez ensuite à [http://localhost:4200](http://localhost:4200)
 npm run build
 ```
 
-Le build de production sera disponible dans `dist/integration-graph-ui/`.
+Le build de production sera disponible dans `dist/spring-integration-graph-viewer/`.
 
 ## Tests
 
@@ -42,7 +42,7 @@ Le build de production sera disponible dans `dist/integration-graph-ui/`.
 npm test
 ```
 
-Rapport généré : `coverage/integration-graph-ui/index.html`
+Rapport généré : `coverage/spring-integration-graph-viewer/index.html`
 
 ### Tests E2E (Cypress)
 
@@ -55,8 +55,8 @@ npm run cy:test
 ## Déploiement Docker
 
 ```bash
-docker build -t integration-graph-ui-angular .
-docker run -p 80:80 integration-graph-ui-angular
+docker build -t spring-integration-graph-viewer .
+docker run -p 80:80 spring-integration-graph-viewer
 ```
 
 ## Intégration Maven
@@ -92,30 +92,30 @@ Ce projet suit un [Code de Conduite](CODE_OF_CONDUCT.md). Merci de le respecter.
 
 ### Installation
 
-1. Cloner ce dépôt ou copier le dossier `chart/integration-graph-ui`
+1. Cloner ce dépôt ou copier le dossier `chart/spring-integration-graph-viewer`
 2. Adapter `values.yaml` si nécessaire (repository, ports, etc.)
 3. Lancer l'installation :
 
 ```bash
-helm install integration-graph-ui ./chart/integration-graph-ui
+helm install spring-integration-graph-viewer ./chart/spring-integration-graph-viewer
 ```
 
 ### Mise à jour
 
 ```bash
-helm upgrade integration-graph-ui ./chart/integration-graph-ui
+helm upgrade spring-integration-graph-viewer ./chart/spring-integration-graph-viewer
 ```
 
 ### Désinstallation
 
 ```bash
-helm uninstall integration-graph-ui
+helm uninstall spring-integration-graph-viewer
 ```
 
 ### Accès (port-forward ou ingress)
 
 ```bash
-kubectl port-forward svc/integration-graph-ui 8080:80
+kubectl port-forward svc/spring-integration-graph-viewer 8080:80
 # Accès sur http://localhost:8080
 ```
 

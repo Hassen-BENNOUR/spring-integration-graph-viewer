@@ -32,7 +32,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: coverage-report
-        path: coverage/integration-graph-ui
+        path: coverage/spring-integration-graph-viewer
 
     - name: Cypress run
       uses: cypress-io/github-action@v6

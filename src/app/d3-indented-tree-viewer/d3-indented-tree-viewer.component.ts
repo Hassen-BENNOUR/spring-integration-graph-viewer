@@ -1,6 +1,6 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
 import * as d3 from "d3";
+import {LoadGraphService} from "../services/load-graph.service";
 
 export class Node {
     id: string;
@@ -17,38 +17,65 @@ export class Node {
     templateUrl: './d3-indented-tree-viewer.component.html',
     styleUrls: ['./d3-indented-tree-viewer.component.css']
 })
-export class D3IndentedTreeViewerComponent implements OnInit, AfterViewInit {
-    graphURL = 'http://localhost:8083/doc/graph/integration';
-    rawNodes: any[] = [];
-    rawLinks: any[] = [];
-    nodes: Node[] = [];
-    data: Node[] = [];
-    selectedNode: any = null;
-    searchTerm = '';
-    chart: Element;
+export class D3IndentedTreeViewerComponent implements OnInit {
+    private rawNodes: any[] = [];
+    private rawLinks: any[] = [];
+    private nodes: Node[] = [];
+    private data: Node[] = [];
 
-    constructor(private http: HttpClient) {
-    }
+    private labels: any;
+    private label: any;
 
-    ngAfterViewInit(): void {
+    constructor(private readonly loadGraphService: LoadGraphService) {
     }
 
     ngOnInit(): void {
-        this.loadGraph();
+        this.loadGraphService.loadEvent
+            .subscribe((data: { nodes: any[], links: any[] }) => {
+                this.rawNodes = data.nodes || [];
+                this.rawLinks = data.links || [];
+                this.updateGraph()
+            });
+        this.loadGraphService.groupsSelectionChangedEvent
+            .subscribe((data: { groupsNodes: { [key: string]: any }, isChecked: boolean }) => {
+                data.groupsNodes.group.forEach((r) => {
+                    this.toggleGroupSelected(r.integrationPatternType, data.isChecked);
+                    return r;
+                });
+            });
+        this.loadGraphService.nodesSelectionChangedEvent
+            .subscribe((data: { group: string, name: string, checked: boolean }) => {
+                this.toggleNodeSelected(data.group, data.name, data.checked);
+            });
     }
 
-    loadGraph(): void {
-        this.http.get<any>(this.graphURL).subscribe(data => {
-            this.rawNodes = data.nodes || [];
-            this.rawLinks = data.links || [];
-            this.updateGraph();
-        });
+    private toggleNodeSelected(group: string, name: string, checked: boolean) {
+        d3.selectAll(this.label)
+            .each(function (node) {
+                if (node.data.name == name) {
+                    if (checked) {
+                        this.classList.add("selected");
+                    } else {
+                        this.classList.remove("selected");
+                    }
+                }
+            });
+    }
+
+    private toggleGroupSelected(group: string, isChecked: boolean) {
+        d3.selectAll(this.labels)
+            .each(function (nodeType) {
+                if (nodeType == group) {
+                    if (isChecked) {
+                        this.classList.add("selected");
+                    } else {
+                        this.classList.remove("selected");
+                    }
+                }
+            });
     }
 
     updateGraph(): void {
-        const filtered = this.rawNodes.filter(n =>
-            n.name?.toLowerCase().includes(this.searchTerm.toLowerCase())
-        );
         this.nodes = this.rawNodes.map(n => ({
             id: n.nodeId,
             name: n.name,
@@ -59,6 +86,8 @@ export class D3IndentedTreeViewerComponent implements OnInit, AfterViewInit {
             data: n
         }));
         const nodeIds = new Set(this.nodes.map(n => n.id));
+
+        this.data = [];
 
         this.rawLinks.filter(l => nodeIds.has(l.from) && nodeIds.has(l.to))
             .forEach(l => {
@@ -89,6 +118,8 @@ export class D3IndentedTreeViewerComponent implements OnInit, AfterViewInit {
         const nodeSize = this.rawLinks.length;
         const height = (nodes.length + 1) * nodeSize;
 
+        d3.select('#d3-indented-tree-viewer').selectAll("svg").remove();
+
         const svgLegend = d3.select('#d3-indented-tree-viewer')
             .append('svg')
             .attr("width", width / 4)
@@ -110,7 +141,7 @@ export class D3IndentedTreeViewerComponent implements OnInit, AfterViewInit {
                 return color(d)
             });
 
-        const labels = svgLegend.selectAll("mylabels")
+        this.labels = svgLegend.selectAll("mylabels")
             .data(groups)
             .enter()
             .append("text")
@@ -126,7 +157,6 @@ export class D3IndentedTreeViewerComponent implements OnInit, AfterViewInit {
             })
             .attr("text-anchor", "left")
             .style("alignment-baseline", "middle");
-
 
         const svg = d3.select('#d3-indented-tree-viewer')
             .append('svg')
@@ -160,7 +190,7 @@ export class D3IndentedTreeViewerComponent implements OnInit, AfterViewInit {
             .attr("r", 5)
             .attr("fill", d => color(d.data.integrationPatternType));
 
-        const label = node.append("text")
+        this.label = node.append("text")
             .attr("dy", "0.32em")
             .attr("x", d => d.depth * nodeSize + 6)
             .attr("fill", d => color(d.data.integrationPatternType))
@@ -170,15 +200,15 @@ export class D3IndentedTreeViewerComponent implements OnInit, AfterViewInit {
             .text(d => d.ancestors().reverse().map(d => d.data.name).join("/"));
 
 
-        labels.attr("pointer-events", "all")
+        this.labels.attr("pointer-events", "all")
             .on("pointerenter", (event, d) => {
-                label.classed("hover", n => n.data.integrationPatternType == d);
+                this.label.classed("hover", n => n.data.integrationPatternType == d);
             })
             .on("pointerout", () => {
-                label.classed("hover", false);
+                this.label.classed("hover", false);
             })
             .on("click", (event, d) => {
-                d3.selectAll(labels)
+                d3.selectAll(this.labels)
                     .each(function (l) {
                         if (l == d) {
                             this.classList.toggle("selected");
@@ -186,7 +216,7 @@ export class D3IndentedTreeViewerComponent implements OnInit, AfterViewInit {
                             this.classList.remove("selected");
                         }
                     });
-                d3.selectAll(label)
+                d3.selectAll(this.label)
                     .each(function (l) {
                         if (l.data.integrationPatternType == d) {
                             this.classList.toggle("selected");

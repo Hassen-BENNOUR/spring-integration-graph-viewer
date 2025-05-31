@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: <your-dockerhub-username>/integration-graph-ui-angular
+  repository: <your-dockerhub-username>/spring-integration-graph-viewer
   pullPolicy: IfNotPresent
   tag: latest
 

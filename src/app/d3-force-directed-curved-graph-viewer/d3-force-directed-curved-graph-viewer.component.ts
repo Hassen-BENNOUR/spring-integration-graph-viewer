@@ -1,43 +1,69 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
 import * as d3 from "d3";
+import {LoadGraphService} from "../services/load-graph.service";
 
 @Component({
     selector: 'app-d3-force-directed-curved-graph-viewer',
     templateUrl: './d3-force-directed-curved-graph-viewer.component.html',
     styleUrls: ['./d3-force-directed-curved-graph-viewer.component.css']
 })
-export class D3ForceDirectedCurvedGraphViewerComponent implements OnInit, AfterViewInit {
-    graphURL = 'http://localhost:8083/doc/graph/integration';
+export class D3ForceDirectedCurvedGraphViewerComponent implements OnInit {
     rawNodes: any[] = [];
     rawLinks: any[] = [];
     data: any[] = [];
-    selectedNode: any = null;
-    searchTerm = '';
+    private labels: any;
+    private label: any;
 
-    constructor(private http: HttpClient) {
-    }
-
-    ngAfterViewInit(): void {
+    constructor(private readonly loadGraphService: LoadGraphService) {
     }
 
     ngOnInit(): void {
-        this.loadGraph();
+        this.loadGraphService.loadEvent
+            .subscribe((data: { nodes: any[], links: any[] }) => {
+                this.rawNodes = data.nodes || [];
+                this.rawLinks = data.links || [];
+                this.updateGraph()
+            });
+        this.loadGraphService.groupsSelectionChangedEvent
+            .subscribe((data: { groupsNodes: { [key: string]: any }, isChecked: boolean }) => {
+                data.groupsNodes.group.forEach((r) => {
+                    this.toggleGroupSelected(r.integrationPatternType, data.isChecked);
+                    return r;
+                });
+            });
+        this.loadGraphService.nodesSelectionChangedEvent
+            .subscribe((data: { group: string, name: string, checked: boolean }) => {
+                this.toggleNodeSelected(data.group, data.name, data.checked);
+            });
     }
 
-    loadGraph(): void {
-        this.http.get<any>(this.graphURL).subscribe(data => {
-            this.rawNodes = data.nodes || [];
-            this.rawLinks = data.links || [];
-            this.updateGraph();
-        });
+    private toggleNodeSelected(group: string, name: string, checked: boolean) {
+        d3.selectAll(this.label)
+            .each(function (node) {
+                if (node.label == name) {
+                    if (checked) {
+                        this.classList.add("selected");
+                    } else {
+                        this.classList.remove("selected");
+                    }
+                }
+            });
+    }
+
+    private toggleGroupSelected(type: string, isChecked: boolean) {
+        d3.selectAll(this.labels)
+            .each(function (nodeType) {
+                if (nodeType == type) {
+                    if (isChecked) {
+                        this.classList.add("selected");
+                    } else {
+                        this.classList.remove("selected");
+                    }
+                }
+            });
     }
 
     updateGraph(): void {
-        const filtered = this.rawNodes.filter(n =>
-            n.name?.toLowerCase().includes(this.searchTerm.toLowerCase())
-        );
-
         // The force simulation mutates links and nodes, so create a copy
         // so that re-evaluating this cell produces the same result.
         const linksData = this.rawLinks.map(l => ({id: `${l.from}-${l.to}`, source: l.from, target: l.to}));
@@ -70,6 +96,8 @@ export class D3ForceDirectedCurvedGraphViewerComponent implements OnInit, AfterV
             .force("x", d3.forceX())
             .force("y", d3.forceY());
 
+        d3.select('#d3-force-directed-curved-graph-viewer').selectAll("svg").remove();
+
         const svgLegend = d3.select('#d3-force-directed-curved-graph-viewer')
             .append('svg')
             .attr("width", width / 4)
@@ -97,7 +125,7 @@ export class D3ForceDirectedCurvedGraphViewerComponent implements OnInit, AfterV
             .attr("viewBox", [-width / 4, -height / 2, width / 4 * 3, height])
             .attr("style", "max-width: 75%; height: auto; font: 12px sans-serif; overflow: scroll;display: inline;");
 
-        const labels = svgLegend.selectAll("mylabels")
+        this.labels = svgLegend.selectAll("mylabels")
             .data(types)
             .enter()
             .append("text")
@@ -160,32 +188,32 @@ export class D3ForceDirectedCurvedGraphViewerComponent implements OnInit, AfterV
             .attr("stroke-width", 1.5)
             .attr("r", 4);
 
-        const label = node.append("text")
+        this.label = node.append("text")
             .attr("dy", "0.32em")
             .attr("x", 8)
             .attr("y", 3)
             .text(d => d.label)
             .attr("color", d => color(d.type));
 
-        labels.attr("pointer-events", "all")
-            .on("pointerenter", (event, d) => {
-                label.classed("hover", n => n.type == d);
+        this.labels.attr("pointer-events", "all")
+            .on("pointerenter", (event, type) => {
+                this.label.classed("hover", n => n.type == type);
             })
             .on("pointerout", () => {
-                label.classed("hover", false);
+                this.label.classed("hover", false);
             })
-            .on("click", (event, d) => {
-                d3.selectAll(labels)
-                    .each(function (l) {
-                        if (l == d) {
+            .on("click", (event, type) => {
+                d3.selectAll(this.labels)
+                    .each(function (nodeType) {
+                        if (nodeType == type) {
                             this.classList.toggle("selected");
                         } else {
                             this.classList.remove("selected");
                         }
                     });
-                d3.selectAll(label)
-                    .each(function (l) {
-                        if (l.type == d) {
+                d3.selectAll(this.label)
+                    .each(function (node) {
+                        if (node.type == type) {
                             this.classList.toggle("selected");
                         } else {
                             this.classList.remove("selected");

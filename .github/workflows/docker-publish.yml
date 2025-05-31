@@ -39,5 +39,5 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: |
-          docker.io/${{ secrets.DOCKERHUB_USERNAME }}/integration-graph-ui-angular:latest
-          ghcr.io/${{ github.repository_owner }}/integration-graph-ui-angular:latest
+          docker.io/${{ secrets.DOCKERHUB_USERNAME }}/spring-integration-graph-viewer:latest
+          ghcr.io/${{ github.repository_owner }}/spring-integration-graph-viewer:latest

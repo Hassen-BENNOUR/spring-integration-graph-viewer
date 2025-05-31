@@ -1,6 +1,6 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
 import * as d3 from "d3";
+import {LoadGraphService} from '../services/load-graph.service';
 
 
 @Component({
@@ -8,37 +8,62 @@ import * as d3 from "d3";
     templateUrl: './d3-arc-diagram-viewer.component.html',
     styleUrls: ['./d3-arc-diagram-viewer.component.css']
 })
-export class D3ArcDiagramViewerComponent implements OnInit, AfterViewInit {
-    graphURL = 'http://localhost:8083/doc/graph/integration';
+export class D3ArcDiagramViewerComponent implements OnInit {
     rawNodes: any[] = [];
     rawLinks: any[] = [];
-    selectedNode: any = null;
-    searchTerm = '';
-    chart
+    private labels: any;
+    private label: any;
 
-    constructor(private http: HttpClient) {
-    }
-
-    ngAfterViewInit(): void {
+    constructor(private readonly loadGraphService: LoadGraphService) {
     }
 
     ngOnInit(): void {
-        this.loadGraph();
+        this.loadGraphService.loadEvent
+            .subscribe((data: { nodes: any[], links: any[] }) => {
+                this.rawNodes = data.nodes || [];
+                this.rawLinks = data.links || [];
+                this.updateGraph()
+            });
+        this.loadGraphService.groupsSelectionChangedEvent
+            .subscribe((data: { groupsNodes: { [key: string]: any }, isChecked: boolean }) => {
+                data.groupsNodes.group.forEach((r) => {
+                    this.toggleGroupSelected(r.integrationPatternType, data.isChecked);
+                    return r;
+                });
+            });
+        this.loadGraphService.nodesSelectionChangedEvent
+            .subscribe((data: { group: string, name: string, checked: boolean }) => {
+                this.toggleNodeSelected(data.group, data.name, data.checked);
+            });
     }
 
-    loadGraph(): void {
-        this.http.get<any>(this.graphURL).subscribe(data => {
-            this.rawNodes = data.nodes || [];
-            this.rawLinks = data.links || [];
-            this.updateGraph();
-        });
+    private toggleNodeSelected(group: string, name: string, checked: boolean) {
+        d3.selectAll(this.label)
+            .each(function (node) {
+                if (node.label == name) {
+                    if (checked) {
+                        this.classList.add("selected");
+                    } else {
+                        this.classList.remove("selected");
+                    }
+                }
+            });
+    }
+
+    private toggleGroupSelected(type: string, isChecked: boolean) {
+        d3.selectAll(this.labels)
+            .each(function (nodeType) {
+                if (nodeType == type) {
+                    if (isChecked) {
+                        this.classList.add("selected");
+                    } else {
+                        this.classList.remove("selected");
+                    }
+                }
+            });
     }
 
     updateGraph(): void {
-        const filtered = this.rawNodes.filter(n =>
-            n.name?.toLowerCase().includes(this.searchTerm.toLowerCase())
-        );
-
         // calculate the dimensions of the chart.
         const width = window.innerWidth || document.body.clientWidth;
 
@@ -75,7 +100,6 @@ export class D3ArcDiagramViewerComponent implements OnInit, AfterViewInit {
         const height = (nodes.length - 1) * step + marginTop + marginBottom;
         const y = d3.scalePoint(orders.get("by name"), [marginTop, height - marginBottom]);
 
-
         const groupsColor = Array.from(new Set(nodes.map(d => d.group)));
 
         // A color scale for the nodes and links.
@@ -88,9 +112,7 @@ export class D3ArcDiagramViewerComponent implements OnInit, AfterViewInit {
         // the group; otherwise null. Used to color the links.
         const groups = new Map(nodes.map(d => [d.id, d.group]));
 
-        function samegroup({source, target}) {
-            return groups.get(source) === groups.get(target) ? groups.get(source) : null;
-        }
+        d3.select('#d3-arc-diagram-viewer').selectAll("svg").remove();
 
         const svgLegend = d3.select('#d3-arc-diagram-viewer')
             .append('svg')
@@ -113,7 +135,7 @@ export class D3ArcDiagramViewerComponent implements OnInit, AfterViewInit {
                 return color(d)
             });
 
-        const labels =svgLegend.selectAll("mylabels")
+        this.labels = svgLegend.selectAll("mylabels")
             .data(groupsColor)
             .enter()
             .append("text")
@@ -177,7 +199,7 @@ export class D3ArcDiagramViewerComponent implements OnInit, AfterViewInit {
             .attr("d", arc);
 
         // Add a text label and a dot for each node.
-        const label = group.append("g")
+        this.label = group.append("g")
             .attr("font-family", "sans-serif")
             .attr("font-size", 10)
             .attr("text-anchor", "end")
@@ -194,15 +216,15 @@ export class D3ArcDiagramViewerComponent implements OnInit, AfterViewInit {
                 .attr("r", 5)
                 .attr("fill", d => color(d.group)));
 
-        labels.attr("pointer-events", "all")
+        this.labels.attr("pointer-events", "all")
             .on("pointerenter", (event, d) => {
-                label.classed("hover", n => n.group == d);
+                this.label.classed("hover", n => n.group == d);
             })
             .on("pointerout", () => {
-                label.classed("hover", false);
+                this.label.classed("hover", false);
             })
             .on("click", (event, d) => {
-                d3.selectAll(labels)
+                d3.selectAll(this.labels)
                     .each(function (l) {
                         if (l == d) {
                             this.classList.toggle("selected");
@@ -210,7 +232,7 @@ export class D3ArcDiagramViewerComponent implements OnInit, AfterViewInit {
                             this.classList.remove("selected");
                         }
                     });
-                d3.selectAll(label)
+                d3.selectAll(this.label)
                     .each(function (l) {
                         if (l.group == d) {
                             this.classList.toggle("selected");
@@ -224,7 +246,7 @@ export class D3ArcDiagramViewerComponent implements OnInit, AfterViewInit {
         group.append("style").text(`.hover, .selected{ font: italic bold 20px sans-serif; stroke: yellow;}`);
 
         // Add invisible rects that update the class of the elements on mouseover.
-        const rect = label.append("rect")
+        const rect = this.label.append("rect")
             .attr("fill", "none")
             .attr("width", marginLeft + 40)
             .attr("height", step)
@@ -234,16 +256,16 @@ export class D3ArcDiagramViewerComponent implements OnInit, AfterViewInit {
             .attr("pointer-events", "all")
             .on("pointerenter", (event, d) => {
                 group.classed("hovers", true);
-                label.classed("primary", n => n === d);
-                label.classed("secondary", n => links.some(({source, target}) => (
+                this.label.classed("primary", n => n === d);
+                this.label.classed("secondary", n => links.some(({source, target}) => (
                     n.id === source && d.id == target || n.id === target && d.id === source
                 )));
                 path.classed("primary", l => l.source === d.id || l.target === d.id).filter(".primary").raise();
             })
             .on("pointerout", () => {
                 group.classed("hovers", false);
-                label.classed("primary", false);
-                label.classed("secondary", false);
+                this.label.classed("primary", false);
+                this.label.classed("secondary", false);
                 path.classed("primary", false).order();
             });
 

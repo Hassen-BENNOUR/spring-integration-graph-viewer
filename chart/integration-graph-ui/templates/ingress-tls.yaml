@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "integration-graph-ui.fullname" . }}
+  name: {{ include "spring-integration-graph-viewer.fullname" . }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
@@ -11,7 +11,7 @@ spec:
   tls:
     - hosts:
         - integration-ui.example.com
-      secretName: integration-graph-ui-tls
+      secretName: spring-integration-graph-viewer-tls
   rules:
     - host: integration-ui.example.com
       http:
@@ -20,7 +20,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: {{ include "integration-graph-ui.fullname" . }}
+                name: {{ include "spring-integration-graph-viewer.fullname" . }}
                 port:
                   number: {{ .Values.service.port }}
 {{- end }}

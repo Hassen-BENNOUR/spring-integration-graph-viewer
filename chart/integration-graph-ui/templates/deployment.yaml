@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "integration-graph-ui.fullname" . }}
+  name: {{ include "spring-integration-graph-viewer.fullname" . }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "integration-graph-ui.name" . }}
+      app: {{ include "spring-integration-graph-viewer.name" . }}
   template:
     metadata:
       labels:
-        app: {{ include "integration-graph-ui.name" . }}
+        app: {{ include "spring-integration-graph-viewer.name" . }}
     spec:
       containers:
-        - name: integration-graph-ui
+        - name: spring-integration-graph-viewer
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:

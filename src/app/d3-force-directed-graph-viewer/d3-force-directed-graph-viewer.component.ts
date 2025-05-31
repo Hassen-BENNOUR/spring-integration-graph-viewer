@@ -1,6 +1,6 @@
-import {Component, OnInit, AfterViewInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
 import * as d3 from "d3";
+import {LoadGraphService} from "../services/load-graph.service";
 
 
 @Component({
@@ -8,40 +8,65 @@ import * as d3 from "d3";
     templateUrl: './d3-force-directed-graph-viewer.component.html',
     styleUrls: ['./d3-force-directed-graph-viewer.component.css']
 })
-export class D3ForceDirectedGraphViewerComponent implements OnInit, AfterViewInit {
-    graphURL = 'http://localhost:8083/doc/graph/integration';
-    rawNodes: any[] = [];
-    rawLinks: any[] = [];
-    selectedNode: any = null;
-    searchTerm = '';
+export class D3ForceDirectedGraphViewerComponent implements OnInit {
+    private rawNodes: any[] = [];
+    private rawLinks: any[] = [];
+    private labels: any;
+    private label: any;
 
-    constructor(private http: HttpClient) {
-    }
-
-    ngAfterViewInit(): void {
+    constructor(private readonly loadGraphService: LoadGraphService) {
     }
 
     ngOnInit(): void {
-        this.loadGraph();
+        this.loadGraphService.loadEvent
+            .subscribe((data: { nodes: any[], links: any[] }) => {
+                this.rawNodes = data.nodes || [];
+                this.rawLinks = data.links || [];
+                this.updateGraph()
+            });
+        this.loadGraphService.groupsSelectionChangedEvent
+            .subscribe((data: { groupsNodes: { [key: string]: any }, isChecked: boolean }) => {
+                data.groupsNodes.group.forEach((r) => {
+                    this.toggleGroupSelected(r.integrationPatternType, data.isChecked);
+                    return r;
+                });
+            });
+        this.loadGraphService.nodesSelectionChangedEvent
+            .subscribe((data: { group: string, name: string, checked: boolean }) => {
+                this.toggleNodeSelected(data.group, data.name, data.checked);
+            });
     }
 
-    loadGraph(): void {
-        this.http.get<any>(this.graphURL).subscribe(data => {
-            this.rawNodes = data.nodes || [];
-            this.rawLinks = data.links || [];
-            this.updateGraph();
-        });
+    private toggleNodeSelected(group: string, name: string, checked: boolean) {
+        d3.selectAll(this.label)
+            .each(function (node) {
+                if (node.label == name) {
+                    if (checked) {
+                        this.classList.add("selected");
+                    } else {
+                        this.classList.remove("selected");
+                    }
+                }
+            });
+    }
+
+    private toggleGroupSelected(type: string, isChecked: boolean) {
+        d3.selectAll(this.labels)
+            .each(function (nodeType) {
+                if (nodeType == type) {
+                    if (isChecked) {
+                        this.classList.add("selected");
+                    } else {
+                        this.classList.remove("selected");
+                    }
+                }
+            });
     }
 
     updateGraph(): void {
-        const filtered = this.rawNodes.filter(n =>
-            n.name?.toLowerCase().includes(this.searchTerm.toLowerCase())
-        );
-
         // calculate the dimensions of the chart.
         const width = window.innerWidth || document.body.clientWidth;
         const height = window.innerHeight || document.body.clientHeight;
-
 
         // The force simulation mutates links and nodes, so create a copy
         // so that re-evaluating this cell produces the same result.
@@ -68,6 +93,8 @@ export class D3ForceDirectedGraphViewerComponent implements OnInit, AfterViewIni
             .on("tick", ticked)
         ;
 
+        d3.select('#d3-force-directed-graph-viewer').selectAll("svg").remove();
+
         const svgLegend = d3.select('#d3-force-directed-graph-viewer')
             .append('svg')
             .attr("width", width / 4)
@@ -88,7 +115,7 @@ export class D3ForceDirectedGraphViewerComponent implements OnInit, AfterViewIni
                 return color(d)
             });
 
-        const labels = svgLegend.selectAll("mylabels")
+        this.labels = svgLegend.selectAll("mylabels")
             .data(types)
             .enter()
             .append("text")
@@ -151,7 +178,7 @@ export class D3ForceDirectedGraphViewerComponent implements OnInit, AfterViewIni
             .attr("r", 5)
             .attr("fill", d => color(d.type));
 
-        const label = node.append("text")
+        this.label = node.append("text")
             .text(function (d) {
                 return d.data.name;
             })
@@ -161,15 +188,15 @@ export class D3ForceDirectedGraphViewerComponent implements OnInit, AfterViewIni
             .attr('y', 3);
 
 
-        labels.attr("pointer-events", "all")
+        this.labels.attr("pointer-events", "all")
             .on("pointerenter", (event, d) => {
-                label.classed("hover", n => n.type == d);
+                this.label.classed("hover", n => n.type == d);
             })
             .on("pointerout", () => {
-                label.classed("hover", false);
+                this.label.classed("hover", false);
             })
             .on("click", (event, d) => {
-                d3.selectAll(labels)
+                d3.selectAll(this.labels)
                     .each(function (l) {
                         if (l == d) {
                             this.classList.toggle("selected");
@@ -177,7 +204,7 @@ export class D3ForceDirectedGraphViewerComponent implements OnInit, AfterViewIni
                             this.classList.remove("selected");
                         }
                     });
-                d3.selectAll(label)
+                d3.selectAll(this.label)
                     .each(function (l) {
                         if (l.type == d) {
                             this.classList.toggle("selected");

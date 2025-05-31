@@ -1,6 +1,6 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {Component, OnInit} from '@angular/core';
 import * as d3 from "d3";
+import {LoadGraphService} from "../services/load-graph.service";
 
 export class Node {
     id: string;
@@ -17,38 +17,66 @@ export class Node {
     templateUrl: './d3-tidy-tree-viewer.component.html',
     styleUrls: ['./d3-tidy-tree-viewer.component.css']
 })
-export class D3TidyTreeViewerComponent implements OnInit, AfterViewInit {
-    graphURL = 'http://localhost:8083/doc/graph/integration';
+export class D3TidyTreeViewerComponent implements OnInit {
     rawNodes: any[] = [];
     rawLinks: any[] = [];
     nodes: Node[] = [];
     data: Node[] = [];
-    selectedNode: any = null;
-    searchTerm = '';
-    chart: Element;
 
-    constructor(private http: HttpClient) {
-    }
 
-    ngAfterViewInit(): void {
+    private labels: any;
+    private label: any;
+
+    constructor(private readonly loadGraphService: LoadGraphService) {
     }
 
     ngOnInit(): void {
-        this.loadGraph();
+        this.loadGraphService.loadEvent
+            .subscribe((data: { nodes: any[], links: any[] }) => {
+                this.rawNodes = data.nodes || [];
+                this.rawLinks = data.links || [];
+                this.updateGraph()
+            });
+        this.loadGraphService.groupsSelectionChangedEvent
+            .subscribe((data: { groupsNodes: { [key: string]: any }, isChecked: boolean }) => {
+                data.groupsNodes.group.forEach((r) => {
+                    this.toggleGroupSelected(r.integrationPatternType, data.isChecked);
+                    return r;
+                });
+            });
+        this.loadGraphService.nodesSelectionChangedEvent
+            .subscribe((data: { group: string, name: string, checked: boolean }) => {
+                this.toggleNodeSelected(data.group, data.name, data.checked);
+            });
     }
 
-    loadGraph(): void {
-        this.http.get<any>(this.graphURL).subscribe(data => {
-            this.rawNodes = data.nodes || [];
-            this.rawLinks = data.links || [];
-            this.updateGraph();
-        });
+    private toggleNodeSelected(group: string, name: string, checked: boolean) {
+        d3.selectAll(this.label)
+            .each(function (node) {
+                if (node.data.name == name) {
+                    if (checked) {
+                        this.classList.add("selected");
+                    } else {
+                        this.classList.remove("selected");
+                    }
+                }
+            });
+    }
+
+    private toggleGroupSelected(group: string, isChecked: boolean) {
+        d3.selectAll(this.labels)
+            .each(function (nodeType) {
+                if (nodeType == group) {
+                    if (isChecked) {
+                        this.classList.add("selected");
+                    } else {
+                        this.classList.remove("selected");
+                    }
+                }
+            });
     }
 
     updateGraph(): void {
-        const filtered = this.rawNodes.filter(n =>
-            n.name?.toLowerCase().includes(this.searchTerm.toLowerCase())
-        );
         this.nodes = this.rawNodes.map(n => ({
             id: n.nodeId,
             name: n.name,
@@ -60,6 +88,7 @@ export class D3TidyTreeViewerComponent implements OnInit, AfterViewInit {
         }));
         const nodeIds = new Set(this.nodes.map(n => n.id));
 
+        this.data = [];
         this.rawLinks.filter(l => nodeIds.has(l.from) && nodeIds.has(l.to))
             .forEach(l => {
                 const parent = this.nodes.find(n => n.id === l.from);
@@ -72,9 +101,7 @@ export class D3TidyTreeViewerComponent implements OnInit, AfterViewInit {
         nodeData.id = "0";
         nodeData.children = this.data;
 
-
-        let width = 928;
-        width = window.innerWidth || document.body.clientWidth;
+        let width = window.innerWidth || document.body.clientWidth;
 
         // Compute the tree height; this approach will allow the height of the
         // SVG to scale according to the breadth (width) of the tree layout.
@@ -91,6 +118,8 @@ export class D3TidyTreeViewerComponent implements OnInit, AfterViewInit {
             .domain(groups.sort(d3.ascending))
             .range(d3.schemeCategory10)
             .unknown("#8F8F8FC4");
+
+        d3.select('#d3-tidy-tree-viewer').selectAll("*").remove();
 
         const svgLegend = d3.select('#d3-tidy-tree-viewer')
             .append('svg')
@@ -113,7 +142,7 @@ export class D3TidyTreeViewerComponent implements OnInit, AfterViewInit {
                 return color(d)
             });
 
-        const labels = svgLegend.selectAll("mylabels")
+        this.labels = svgLegend.selectAll("mylabels")
             .data(groups)
             .enter()
             .append("text")
@@ -134,6 +163,7 @@ export class D3TidyTreeViewerComponent implements OnInit, AfterViewInit {
         const nodeSize = 5;
         innerHeight = (nodes.length + 1) * nodeSize;
         innerHeight = Math.min(innerHeight, window.innerHeight * 2)
+
         const svg = d3.select('#d3-tidy-tree-viewer')
             .style("display", "flex")
             .style("align-items", "center")
@@ -174,7 +204,7 @@ export class D3TidyTreeViewerComponent implements OnInit, AfterViewInit {
 
         // setTimeout(() => zoomBehaviours.translateTo(svg, 0, 0), 100);
 
-        function update(source) {
+        const update = (source: { altKey: any; y0: any; x0: any; y: any; x: any }, isRoot: boolean) => {
             const duration = source && source.altKey ? 2500 : 250;
             const nodes = root.descendants().reverse();
             const links = root.links();
@@ -203,7 +233,7 @@ export class D3TidyTreeViewerComponent implements OnInit, AfterViewInit {
                     if (event && event.altKey) {
                         d.altKey = event.altKey;
                     }
-                    update(d);
+                    update(d, false);
                     if (event && event.altKey) {
                         setTimeout(() => {
                             zoomToFit();
@@ -223,31 +253,9 @@ export class D3TidyTreeViewerComponent implements OnInit, AfterViewInit {
                 .text(d => d.data.name)
                 .attr("fill", d => color(d.data.integrationPatternType));
 
-            labels.attr("pointer-events", "all")
-                .on("pointerenter", (event, d) => {
-                    label.classed("hover", n => n.data.integrationPatternType == d);
-                })
-                .on("pointerout", () => {
-                    label.classed("hover", false);
-                })
-                .on("click", (event, d) => {
-                    d3.selectAll(labels)
-                        .each(function (l) {
-                            if (l == d) {
-                                this.classList.toggle("selected");
-                            } else {
-                                this.classList.remove("selected");
-                            }
-                        });
-                    d3.selectAll(label)
-                        .each(function (l) {
-                            if (l.data.integrationPatternType == d) {
-                                this.classList.toggle("selected");
-                            } else {
-                                this.classList.remove("selected");
-                            }
-                        });
-                });
+            if (isRoot) {
+                this.label = label;
+            }
 
             // Add styles for the hover interaction.
             group.append("style").text(`.hover, .selected{ font: italic bold 20px sans-serif; stroke: yellow;}`);
@@ -327,7 +335,33 @@ export class D3TidyTreeViewerComponent implements OnInit, AfterViewInit {
                 .call(zoomBehaviours.transform, transform);
         }
 
-        update(root);
+        update(root, true);
+
+        this.labels.attr("pointer-events", "all")
+            .on("pointerenter", (event, d) => {
+                this.label.classed("hover", n => n.data.integrationPatternType == d);
+            })
+            .on("pointerout", () => {
+                this.label.classed("hover", false);
+            })
+            .on("click", (event, d) => {
+                d3.selectAll(this.labels)
+                    .each(function (l) {
+                        if (l == d) {
+                            this.classList.toggle("selected");
+                        } else {
+                            this.classList.remove("selected");
+                        }
+                    });
+                d3.selectAll(this.label)
+                    .each(function (l) {
+                        if (l.data.integrationPatternType == d) {
+                            this.classList.toggle("selected");
+                        } else {
+                            this.classList.remove("selected");
+                        }
+                    });
+            });
 
         setTimeout(() => zoomToFit(), 1000);
     }

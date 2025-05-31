@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "integration-graph-ui": {
+    "spring-integration-graph-viewer": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,11 +13,64 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/integration-graph-ui",
+            "outputPath": "dist/spring-integration-graph-viewer",
             "tsConfig": "tsconfig.app.json",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "styles": ["src/styles.css"]
+            "styles": [
+              "src/styles.css"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
+              "outputHashing": "none",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "5mb",
+                  "maximumError": "10mb"
+                }
+              ]
+            },
+            "docker": {
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "ngx-build-plus:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "spring-integration-graph-viewer:build:production"
+            }
+          },
+          "options": {
+            "buildTarget": "spring-integration-graph-viewer:build",
+            "host": "0.0.0.0",
+            "disableHostCheck": true,
+            "port": 4199,
+            "liveReload": false
           }
         }
       }
