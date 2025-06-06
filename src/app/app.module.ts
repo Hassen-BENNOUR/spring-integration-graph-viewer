@@ -24,7 +24,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 @NgModule({
     declarations: [AppComponent, MainComponent, D3ForceDirectedGraphViewerComponent, D3IndentedTreeViewerComponent, D3TidyTreeViewerComponent,
         D3ArcDiagramViewerComponent, D3ForceDirectedCurvedGraphViewerComponent],
-    imports: [MatFormFieldModule, MatSelectModule, MatInputModule, BrowserModule, BrowserModule, BrowserAnimationsModule,
+    imports: [MatFormFieldModule, MatSelectModule, MatInputModule, BrowserModule, BrowserAnimationsModule,
         ReactiveFormsModule, FormsModule, HttpClientModule],
     providers: [],
     bootstrap: [AppComponent]
