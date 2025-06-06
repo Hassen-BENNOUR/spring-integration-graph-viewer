@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { D3ForceDirectedCurvedGraphViewerComponent } from './d3-force-directed-curved-graph-viewer.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormsModule } from '@angular/forms';
+import { NgxGraphModule } from '@swimlane/ngx-graph';
 
 describe('D3ForceDirectedCurvedGraphViewerComponent', () => {
   let component: D3ForceDirectedCurvedGraphViewerComponent;
