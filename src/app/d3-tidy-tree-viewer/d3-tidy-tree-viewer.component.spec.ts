@@ -2,6 +2,7 @@ import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {D3TidyTreeViewerComponent} from './d3-tidy-tree-viewer.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {FormsModule} from '@angular/forms';
+import { NgxGraphModule } from '@swimlane/ngx-graph';
 
 describe('D3TidyTreeViewerComponent', () => {
     let component: D3TidyTreeViewerComponent;
