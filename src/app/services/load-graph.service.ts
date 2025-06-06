@@ -163,9 +163,6 @@ export class LoadGraphService {
         if (componentType === "bridge") {
             return `https://www.enterpriseintegrationpatterns.com/img/MessagingBridge.gif`;
         }
-        if (componentType === "bridge") {
-            return `https://www.enterpriseintegrationpatterns.com/img/MessagingBridge.gif`;
-        }
         if (componentType === "filter") {
             return `https://www.enterpriseintegrationpatterns.com/img/MessageFilterIcon.gif`;
         }
