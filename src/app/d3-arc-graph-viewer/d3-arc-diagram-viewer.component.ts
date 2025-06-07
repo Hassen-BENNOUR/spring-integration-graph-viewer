@@ -73,8 +73,9 @@ export class D3ArcDiagramViewerComponent implements OnInit {
         // The force simulation mutates links and nodes, so create a copy
         // so that re-evaluating this cell produces the same result.
         const links = this.rawLinks.map(l => ({id: `${l.from}-${l.to}`, source: l.from, target: l.to}));
-        const nodes = this.rawNodes.map(l => ({
-            id: l.nodeId,
+        const filtered = this.rawNodes.filter(n => !this.searchTerm || n.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+        const nodes = filtered.map(l => ({
+            id: l.nodeId ?? l.id,
             label: `${l.name}`,
             group: `${l.integrationPatternType}`,
             data: l
@@ -293,7 +294,7 @@ export class D3ArcDiagramViewerComponent implements OnInit {
     }
 
     onNodeClick(nodeId: string): void {
-        const found = this.rawNodes.find(n => n.nodeId === nodeId || n.name === nodeId);
+        const found = this.rawNodes.find(n => n.nodeId === nodeId || n.id === nodeId || n.name === nodeId);
         if (found) {
             this.selectedNode = found;
             this.searchTerm = found.name;
