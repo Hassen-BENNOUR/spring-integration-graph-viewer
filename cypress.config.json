@@ -1,6 +1,6 @@
 {
   "e2e": {
-    "baseUrl": "http://localhost:4200",
+    "baseUrl": "http://localhost:4199",
     "supportFile": "cypress/support/e2e.js"
   }
 }
