@@ -27,6 +27,12 @@ describe('MainComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should create MainComponent via TestBed', () => {
+    const testFixture = TestBed.createComponent(MainComponent);
+    const testComponent = testFixture.componentInstance;
+    expect(testComponent).toBeTruthy();
+  });
+
   it('updates groupsNodes on event', () => {
     const service = TestBed.inject(LoadGraphService);
     const testGroups = { group: [{ name: 'test' }] } as any;
