@@ -1,6 +1,6 @@
 # Integration Graph UI (Angular)
 
-![CI](https://github.com/<your-username>/spring-integration-graph-viewer/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/ci.yml/badge.svg)
 
 Cette application Angular permet de visualiser dynamiquement les composants EIP exposés par Spring Integration via l’endpoint `/integrationgraph`.
 

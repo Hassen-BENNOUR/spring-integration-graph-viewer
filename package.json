@@ -51,7 +51,7 @@
     "webpack": "^5.99.8",
     "webpack-bundle-analyzer": "^3.9.0"
   },
-  "description": "![CI](https://github.com/<your-username>/spring-integration-graph-viewer-angular/actions/workflows/ci.yml/badge.svg)",
+  "description": "![CI](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer-angular/actions/workflows/ci.yml/badge.svg)",
   "main": "karma.conf.js",
   "author": "",
   "license": "ISC"
