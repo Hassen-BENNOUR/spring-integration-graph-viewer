@@ -11,6 +11,9 @@ import {LoadGraphService} from '../services/load-graph.service';
 export class D3ArcDiagramViewerComponent implements OnInit {
     rawNodes: any[] = [];
     rawLinks: any[] = [];
+    nodes: any[] = [];
+    selectedNode: any = null;
+    searchTerm = '';
     private labels: any;
     private label: any;
 
@@ -70,12 +73,14 @@ export class D3ArcDiagramViewerComponent implements OnInit {
         // The force simulation mutates links and nodes, so create a copy
         // so that re-evaluating this cell produces the same result.
         const links = this.rawLinks.map(l => ({id: `${l.from}-${l.to}`, source: l.from, target: l.to}));
-        const nodes = this.rawNodes.map(l => ({
-            id: l.nodeId,
+        const filtered = this.rawNodes.filter(n => !this.searchTerm || n.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+        const nodes = filtered.map(l => ({
+            id: l.nodeId ?? l.id,
             label: `${l.name}`,
             group: `${l.integrationPatternType}`,
             data: l
         }));
+        this.nodes = nodes;
 
         var degree = d3.rollup(
             links.flatMap(({source, target, id}) => [
@@ -286,6 +291,14 @@ export class D3ArcDiagramViewerComponent implements OnInit {
            .hovers path { stroke: #ccc; }
            .hovers path.primary { stroke: #8F8F8FC4; }
          `);
+    }
+
+    onNodeClick(nodeId: string): void {
+        const found = this.rawNodes.find(n => n.nodeId === nodeId || n.id === nodeId || n.name === nodeId);
+        if (found) {
+            this.selectedNode = found;
+            this.searchTerm = found.name;
+        }
     }
 
 }

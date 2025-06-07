@@ -22,6 +22,8 @@ export class D3TidyTreeViewerComponent implements OnInit {
     rawLinks: any[] = [];
     nodes: Node[] = [];
     data: Node[] = [];
+    selectedNode: any = null;
+    searchTerm = '';
 
 
     private labels: any;
@@ -77,7 +79,8 @@ export class D3TidyTreeViewerComponent implements OnInit {
     }
 
     updateGraph(): void {
-        this.nodes = this.rawNodes.map(n => ({
+        const filtered = this.rawNodes.filter(n => !this.searchTerm || n.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+        this.nodes = filtered.map(n => ({
             id: n.nodeId,
             name: n.name,
             children: new Array<Node>(),
@@ -364,5 +367,13 @@ export class D3TidyTreeViewerComponent implements OnInit {
             });
 
         setTimeout(() => zoomToFit(), 1000);
+    }
+
+    onNodeClick(nodeId: string): void {
+        const found = this.rawNodes.find(n => n.nodeId === nodeId || n.id === nodeId || n.name === nodeId);
+        if (found) {
+            this.selectedNode = found;
+            this.searchTerm = found.name;
+        }
     }
 }
