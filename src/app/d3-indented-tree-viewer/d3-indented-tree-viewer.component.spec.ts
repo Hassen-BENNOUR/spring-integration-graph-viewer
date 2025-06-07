@@ -33,7 +33,7 @@ describe('D3IndentedTreeViewerComponent', () => {
     component.searchTerm = 'filter';
     component.updateGraph();
     expect(component.nodes.length).toBe(1);
-    expect(component.nodes[0].label).toBe('filterA');
+    expect(component.nodes[0].name).toBe('filterA');
   });
 
   it('selects a node by id', () => {

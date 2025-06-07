@@ -9,8 +9,11 @@ import {LoadGraphService} from "../services/load-graph.service";
     styleUrls: ['./d3-force-directed-graph-viewer.component.css']
 })
 export class D3ForceDirectedGraphViewerComponent implements OnInit {
-    private rawNodes: any[] = [];
-    private rawLinks: any[] = [];
+    rawNodes: any[] = [];
+    rawLinks: any[] = [];
+    nodes: any[] = [];
+    selectedNode: any = null;
+    searchTerm = '';
     private labels: any;
     private label: any;
 
@@ -71,12 +74,14 @@ export class D3ForceDirectedGraphViewerComponent implements OnInit {
         // The force simulation mutates links and nodes, so create a copy
         // so that re-evaluating this cell produces the same result.
         const links = this.rawLinks.map(l => ({id: `${l.from}-${l.to}`, source: l.from, target: l.to}));
-        const nodes = this.rawNodes.map(l => ({
-            id: l.nodeId,
+        const filtered = this.rawNodes.filter(n => !this.searchTerm || n.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+        const nodes = filtered.map(l => ({
+            id: l.nodeId ?? l.id,
             label: `${l.name}`,
             type: l.integrationPatternType,
             data: l
         }));
+        this.nodes = nodes;
 
         // Specify the color scale.
         const types = Array.from(new Set(nodes.map(d => d.type)));
@@ -262,6 +267,14 @@ export class D3ForceDirectedGraphViewerComponent implements OnInit {
             if (!event.active) simulation.alphaTarget(0);
             event.subject.fx = null;
             event.subject.fy = null;
+        }
+    }
+
+    onNodeClick(nodeId: string): void {
+        const found = this.rawNodes.find(n => n.nodeId === nodeId || n.id === nodeId || n.name === nodeId);
+        if (found) {
+            this.selectedNode = found;
+            this.searchTerm = found.name;
         }
     }
 }
