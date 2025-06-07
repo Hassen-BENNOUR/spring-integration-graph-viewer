@@ -22,6 +22,8 @@ export class D3TidyTreeViewerComponent implements OnInit {
     rawLinks: any[] = [];
     nodes: Node[] = [];
     data: Node[] = [];
+    selectedNode: any = null;
+    searchTerm = '';
 
 
     private labels: any;
@@ -364,5 +366,13 @@ export class D3TidyTreeViewerComponent implements OnInit {
             });
 
         setTimeout(() => zoomToFit(), 1000);
+    }
+
+    onNodeClick(nodeId: string): void {
+        const found = this.rawNodes.find(n => n.nodeId === nodeId || n.name === nodeId);
+        if (found) {
+            this.selectedNode = found;
+            this.searchTerm = found.name;
+        }
     }
 }

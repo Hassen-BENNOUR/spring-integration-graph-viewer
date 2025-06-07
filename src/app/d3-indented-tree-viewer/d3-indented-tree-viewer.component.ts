@@ -18,10 +18,12 @@ export class Node {
     styleUrls: ['./d3-indented-tree-viewer.component.css']
 })
 export class D3IndentedTreeViewerComponent implements OnInit {
-    private rawNodes: any[] = [];
-    private rawLinks: any[] = [];
-    private nodes: Node[] = [];
-    private data: Node[] = [];
+    rawNodes: any[] = [];
+    rawLinks: any[] = [];
+    nodes: Node[] = [];
+    data: Node[] = [];
+    selectedNode: any = null;
+    searchTerm = '';
 
     private labels: any;
     private label: any;
@@ -236,5 +238,13 @@ export class D3IndentedTreeViewerComponent implements OnInit {
             });
 
         svg.call(zoomBehaviours);
+    }
+
+    onNodeClick(nodeId: string): void {
+        const found = this.rawNodes.find(n => n.nodeId === nodeId || n.name === nodeId);
+        if (found) {
+            this.selectedNode = found;
+            this.searchTerm = found.name;
+        }
     }
 }

@@ -11,6 +11,9 @@ import {LoadGraphService} from '../services/load-graph.service';
 export class D3ArcDiagramViewerComponent implements OnInit {
     rawNodes: any[] = [];
     rawLinks: any[] = [];
+    nodes: any[] = [];
+    selectedNode: any = null;
+    searchTerm = '';
     private labels: any;
     private label: any;
 
@@ -76,6 +79,7 @@ export class D3ArcDiagramViewerComponent implements OnInit {
             group: `${l.integrationPatternType}`,
             data: l
         }));
+        this.nodes = nodes;
 
         var degree = d3.rollup(
             links.flatMap(({source, target, id}) => [
@@ -286,6 +290,14 @@ export class D3ArcDiagramViewerComponent implements OnInit {
            .hovers path { stroke: #ccc; }
            .hovers path.primary { stroke: #8F8F8FC4; }
          `);
+    }
+
+    onNodeClick(nodeId: string): void {
+        const found = this.rawNodes.find(n => n.nodeId === nodeId || n.name === nodeId);
+        if (found) {
+            this.selectedNode = found;
+            this.searchTerm = found.name;
+        }
     }
 
 }
