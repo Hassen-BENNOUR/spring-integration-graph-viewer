@@ -15,21 +15,31 @@ jobs:
         node-version: [18.x]
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
 
     - name: Install dependencies
       run: npm install
 
+    - name: Install Google Chrome
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y fonts-liberation xdg-utils
+        curl -fsSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o chrome.deb
+        sudo dpkg -i chrome.deb || sudo apt-get -f install -y
+        rm chrome.deb
+
     - name: Run unit tests
       run: npm test
+      env:
+        CHROME_BIN: google-chrome-stable
 
     - name: Upload coverage report
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: coverage-report
         path: coverage/spring-integration-graph-viewer
