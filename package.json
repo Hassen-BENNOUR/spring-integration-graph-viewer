@@ -16,7 +16,7 @@
   "private": true,
   "dependencies": {
     "@angular-devkit/architect": "0.1802.10",
-    "@angular-devkit/build-angular": "18.2.10",
+    "@angular-devkit/build-angular": "18.2.19",
     "@angular-devkit/build-webpack": "0.1802.10",
     "@angular-devkit/core": "18.2.10",
     "@angular/animations": "18.2.10",
@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@angular-devkit/architect": "0.1802.10",
-    "@angular-devkit/build-angular": "18.2.10",
+    "@angular-devkit/build-angular": "18.2.19",
     "@angular-devkit/build-webpack": "0.1802.10",
     "@angular-devkit/core": "18.2.10",
     "@angular/cdk": "18.2.10",
