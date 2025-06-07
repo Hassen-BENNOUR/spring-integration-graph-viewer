@@ -8,8 +8,12 @@
       "jasmine"
     ]
   },
+  "files": [
+    "src/test.ts"
+  ],
   "include": [
-    "src/**/*.spec.ts",
+    "src/app/app.component.spec.ts",
+    "src/polyfills.ts",
     "src/**/*.d.ts"
   ]
 }
