@@ -49,7 +49,15 @@
     "ngx-build-plus": "18.0.0",
     "typescript": "5.5.4",
     "webpack": "^5.99.8",
-    "webpack-bundle-analyzer": "^3.9.0"
+    "webpack-bundle-analyzer": "^3.9.0",
+    "karma": "~6.4.0",
+    "karma-chrome-launcher": "~3.2.0",
+    "karma-jasmine": "~5.1.0",
+    "karma-jasmine-html-reporter": "~2.1.0",
+    "karma-coverage": "~2.2.0",
+    "jasmine-core": "~5.8.0",
+    "@types/jasmine": "~5.1.8",
+    "@swimlane/ngx-graph": "10.0.0"
   },
   "description": "![CI](https://github.com/<your-username>/spring-integration-graph-viewer-angular/actions/workflows/ci.yml/badge.svg)",
   "main": "karma.conf.js",
