@@ -23,7 +23,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Install dependencies
-      run: npm install  --legacy-peer-deps
+      run: npm install
 
     - name: Install Google Chrome
       run: |
@@ -37,7 +37,7 @@ jobs:
       run: npm run build
 
     - name: Run unit tests
-      run: npm test --legacy-peer-deps
+      run: npm test 
       env:
         CHROME_BIN: google-chrome-stable
 
@@ -50,7 +50,7 @@ jobs:
     - name: Cypress run
       uses: cypress-io/github-action@v6
       with:
-        start: npm start --legacy-peer-deps
+        start: npm start
         record: true
         parallel: true
         wait-on: 'http://localhost:4199'

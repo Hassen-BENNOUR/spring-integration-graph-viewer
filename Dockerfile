@@ -2,7 +2,8 @@
 FROM node:18-alpine AS build
 WORKDIR /app
 COPY . .
-RUN npm install --legacy-peer-deps && npm run build
+WORKDIR .
+RUN npm install && npm run build
 
 # Production stage
 FROM nginx:alpine
