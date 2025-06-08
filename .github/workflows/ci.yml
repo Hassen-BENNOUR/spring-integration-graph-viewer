@@ -50,8 +50,5 @@ jobs:
     - name: Cypress run
       uses: cypress-io/github-action@v6
       with:
-        start: npm start
-        record: true
-        parallel: true
         wait-on: 'http://localhost:4199'
         wait-on-timeout: 60
