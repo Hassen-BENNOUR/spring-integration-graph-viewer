@@ -50,7 +50,7 @@ jobs:
     - name: Cypress run
       uses: cypress-io/github-action@v6
       with:
-        start: npm clean-install & npm start --legacy-peer-deps
+        start: npm start --legacy-peer-deps
         record: true
         parallel: true
         wait-on: 'http://localhost:4199'
