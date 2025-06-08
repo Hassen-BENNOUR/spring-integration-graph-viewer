@@ -1,0 +1,57 @@
+name: Angular CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install dependencies
+      run: npm install  --legacy-peer-deps
+
+    - name: Install Google Chrome
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y fonts-liberation xdg-utils
+        curl -fsSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o chrome.deb
+        sudo dpkg -i chrome.deb || sudo apt-get -f install -y
+        rm chrome.deb
+
+    - name: Build project
+      run: npm run build
+
+    - name: Run unit tests
+      run: npm test --legacy-peer-deps
+      env:
+        CHROME_BIN: google-chrome-stable
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: coverage/spring-integration-graph-viewer
+
+    - name: Cypress run
+      uses: cypress-io/github-action@v6
+      with:
+        start: npm start --legacy-peer-deps
+        record: true
+        parallel: true
+        wait-on: 'http://localhost:4199'
+        wait-on-timeout: 60

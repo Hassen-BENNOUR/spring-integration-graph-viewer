@@ -1,0 +1,7 @@
+version: '3.8'
+services:
+  spring-integration-graph-viewer:
+    image: <your-dockerhub-username>/spring-integration-graph-viewer:latest
+    ports:
+      - "8080:80"
+    restart: always

@@ -1,0 +1,41 @@
+This project uses the following third-party libraries:
+
+1. Angular (framework)
+   - License: MIT
+   - Author: Google
+   - URL: https://angular.io
+
+2. Angular Material & CDK
+   - License: MIT
+   - URL: https://material.angular.io
+
+3. D3.js (data visualization)
+   - License: ISC
+   - Author: Mike Bostock
+   - URL: https://d3js.org
+
+4. RxJS
+   - License: Apache-2.0
+   - URL: https://rxjs.dev
+
+5. Zone.js
+   - License: MIT
+   - URL: https://github.com/angular/zone.js
+
+6. TSLib
+   - License: 0BSD
+   - URL: https://github.com/Microsoft/tslib
+
+7. Angular HTTP Server
+   - License: MIT
+   - URL: https://github.com/simonh1000/angular-http-server
+
+8. Cypress (for end-to-end testing)
+   - License: MIT
+   - URL: https://www.cypress.io
+
+9. TypeScript
+   - License: Apache-2.0
+   - URL: https://www.typescriptlang.org
+
+This file is provided as a courtesy. For exact terms, see each project's own repository.
