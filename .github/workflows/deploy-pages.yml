@@ -28,7 +28,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/spring-integration-graph-viewer
+          path: dist/spring-integration-graph-viewer/browser
   deploy:
     needs: build
     runs-on: ubuntu-latest
