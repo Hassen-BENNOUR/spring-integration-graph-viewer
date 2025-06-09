@@ -45,7 +45,7 @@ jobs:
         run: |
           npm run update-coverage-readme
           cd ${GITHUB_WORKSPACE}
-          git config user.name "github-actions"
+          git config user.name ${{ github.actor }}
           git config user.email "github-actions@github.com"
           git config token '${{ secrets.GITHUB_TOKEN }}'
           git add README.md
