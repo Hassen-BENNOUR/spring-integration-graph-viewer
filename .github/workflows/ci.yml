@@ -42,9 +42,9 @@ jobs:
           CHROME_BIN: google-chrome-stable
 
       - name: Update README with coverage
-        working-directory: ${GITHUB_WORKSPACE}
         run: |
           npm run update-coverage-readme
+          cd ${GITHUB_WORKSPACE}
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add README.md
