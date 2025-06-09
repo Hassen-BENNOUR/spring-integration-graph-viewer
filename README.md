@@ -1,176 +1,197 @@
 # Integration Graph UI (Angular)
 
-----------------------------------
+---
 
-# Code Coverage Summary
+## Code Coverage & Status
 
-![Built With Docker](https://img.shields.io/badge/Built_With-Docker-informational?style=flat&logo=docker)
-&nbsp;
-![CI](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/ci.yml/badge.svg)
-[![Build and Publish Docker GHCR image](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/docker-ghcr-publish.yml/badge.svg)](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/docker-ghcr-publish.yml)
-[![Deploy GitHub Pages](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/deploy-pages.yml)
-[![Build and Publish Docker Image](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/docker-publish.yml)
-[![Dependabot Updates](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/dependabot/dependabot-updates)
-[![Npm Publish Github Package](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/npm-publish-github-packages.yml/badge.svg)](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/npm-publish-github-packages.yml)
-
+[![Built With Docker](https://img.shields.io/badge/Built_With-Docker-informational?style=flat&logo=docker)]()
+[![CI](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/ci.yml/badge.svg)]()
+[![Docker GHCR](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/docker-ghcr-publish.yml/badge.svg)]()
+[![Docker Hub](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/docker-publish.yml/badge.svg)]()
+[![GitHub Pages](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/deploy-pages.yml/badge.svg)]()
+[![Dependabot](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/dependabot/dependabot-updates/badge.svg)]()
+[![npm Package](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/npm-publish-github-packages.yml/badge.svg)]()
 
 <!-- coverage start -->
-![Statements coverage](https://img.shields.io/badge/Statements-66.32%25-yellow)
-![Branches coverage](https://img.shields.io/badge/Branches-31.03%25-yellow)
-![Functions coverage](https://img.shields.io/badge/Functions-67.06%25-yellow)
-![Lines coverage](https://img.shields.io/badge/Lines-65.47%25-yellow)
+| Metric     | Coverage                                          |
+|------------|---------------------------------------------------|
+| Statements | ![Statements coverage](https://img.shields.io/badge/Statements-66.32%25-yellow) |
+| Branches   | ![Branches coverage](https://img.shields.io/badge/Branches-31.03%25-yellow)     |
+| Functions  | ![Functions coverage](https://img.shields.io/badge/Functions-67.06%25-yellow)   |
+| Lines      | ![Lines coverage](https://img.shields.io/badge/Lines-65.47%25-yellow)           |
 <!-- coverage end -->
 
-----------------------------------
-**Cette application Angular permet de visualiser dynamiquement les composants EIP exposés par Spring Integration via
-l’endpoint `/integrationgraph`.**
+---
 
-----------------------------------
+This Angular application dynamically visualizes the EIP components published by Spring Integration via the `/integrationgraph` endpoint.
 
-## [**Demo available here**](https://hassen-bennour.github.io/spring-integration-graph-viewer/)
+---
 
-----------------------------------
+🌐 **Demo**:  
+[https://hassen-bennour.github.io/spring-integration-graph-viewer/](https://hassen-bennour.github.io/spring-integration-graph-viewer/)
 
-## How to visualize a Spring Integration graph ?
-**Take a look at the** [wiki](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/wiki#how-to-visualize-a-spring-integration-graph-) !
+---
 
------------------------
+## How to visualize a Spring Integration graph?
 
-## Fonctionnalités
+Refer to our [Wiki guide →](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/wiki#how-to-visualize-a-spring-integration-graph-)
 
-- Récupération dynamique du `/integrationgraph`
-- Affichage sous forme de graphe interactif (nœuds, liens fléchés)
-- Affichage détaillé des composants EIP avec image du pattern
-- Recherche et filtrage dynamique
-- Tests unitaires (Jasmine/Karma)
-- Tests end-to-end (Cypress)
-- Déploiement Docker ou intégration Spring Boot
+---
 
-----------------------------------
+## Features
+
+- **Dynamic data fetch** from `/integrationgraph` endpoint
+- **Multiple D3 visualizations**: tree, force-directed, curved, indented, arc, tidy tree, Sankey
+- **Interactive UI**: pan/zoom, tooltips, click for details
+- **EIP pattern images** fetched from enterpriseintegrationpatterns.com
+- **Search & filter** by component name, type, class, pattern category
+- **Unit tests** (Jasmine / Karma) with coverage report
+- **E2E tests** (Cypress, headless & CI-ready)
+- **Dockerized** frontend & backend, or Spring Boot integration
+
+---
 
 ## Installation
 
 ```bash
+# Frontend
+cd spring-integration-graph-viewer
 npm install
-```
-
-```bash
 npm start
 ```
 
-Accédez ensuite à [http://localhost:4200](http://localhost:4200)
-
-## Build
+Then open [http://localhost:4200](http://localhost:4200).
 
 ```bash
-npm run build
+# Backend (optional)
+cd backend
+./mvnw spring-boot:run
 ```
 
-Le build de production sera disponible dans `dist/spring-integration-graph-viewer/`.
+---
 
-## Tests
-
-### Tests unitaires + couverture HTML
+## Building for Production
 
 ```bash
+cd frontend
+npm run build -- --configuration production
+```
+
+The production build will be in `dist/spring-integration-graph-viewer/browser`.
+
+---
+
+## Testing
+
+### Unit tests & HTML coverage
+
+```bash
+cd frontend
 npm test
 ```
 
-**Rapport généré : `coverage/spring-integration-graph-viewer/index.html`**
+→ Coverage report in `coverage/spring-integration-graph-viewer/index.html`.
 
-### Tests E2E (Cypress)
+### E2E (Cypress)
 
 ```bash
-npx cypress open
-# ou
-npm run cy:test
+cd frontend
+npm run e2e
 ```
 
-----------------------------------
+---
 
-## Déploiement Docker
+## Docker Deployment
 
-**Building**
+### Build & Run
 
 ```bash
+# Frontend
+cd spring-integration-graph-viewer
 docker build -t spring-integration-graph-viewer .
 docker run -p 80:80 spring-integration-graph-viewer
+
 ```
 
-**Using GHCR**
-
-`docker pull ghcr.io/hassen-bennour/spring-integration-graph-viewer:main
-`
-----------------------------------
-
-## Intégration Maven
-
-Le build et les tests peuvent être lancés automatiquement dans Maven :
+### GitHub Container Registry (GHCR)
 
 ```bash
-mvn clean install
+docker pull ghcr.io/hassen-bennour/spring-integration-graph-viewer:main
 ```
 
-----------------------------------
+---
 
-## Contribution
-
-Voir [CONTRIBUTING.md](CONTRIBUTING.md) pour contribuer à ce projet.
-
-----------------------------------
-
-## Licence
-
-Distribué sous [Licence Apache 2.0](LICENSE).
-
-----------------------------------
-
-## Historique
-
-Voir [CHANGELOG.md](CHANGELOG.md) pour les évolutions du projet.
-
-----------------------------------
-
-## Code de conduite
-
-Ce projet suit un [Code de Conduite](CODE_OF_CONDUCT.md). Merci de le respecter.
-
-----------------------------------
-
-## Déploiement sur Kubernetes avec Helm
-
-### Prérequis
-
-- `kubectl` configuré pour ton cluster
-- `helm` installé (`brew install helm` ou [docs](https://helm.sh))
-
-### Installation
-
-1. Cloner ce dépôt ou copier le dossier `chart/spring-integration-graph-viewer`
-2. Adapter `values.yaml` si nécessaire (repository, ports, etc.)
-3. Lancer l'installation :
+## Maven Integration
 
 ```bash
-helm install spring-integration-graph-viewer ./chart/spring-integration-graph-viewer
+cd backend
+./mvnw clean install
 ```
 
-### Mise à jour
+---
+
+## Contributing
+
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute.
+
+---
+
+## License
+
+This project is licensed under the [Apache 2.0 License](LICENSE).
+
+---
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for release notes and version history.
+
+---
+
+## Code of Conduct
+
+This project adheres to a [Code of Conduct](CODE_OF_CONDUCT.md). Please read and follow it.
+
+---
+
+## Kubernetes Deployment (Helm)
+
+### Prerequisites
+
+- `kubectl` configured for your cluster
+- `helm` installed ([install guide](https://helm.sh))
+
+### Install
 
 ```bash
-helm upgrade spring-integration-graph-viewer ./chart/spring-integration-graph-viewer
+git clone https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer.git
+cd spring-integration-graph-viewer/chart/spring-integration-graph-viewer
+helm install spring-integration-graph-viewer .
 ```
 
-### Désinstallation
+### Upgrade & Uninstall
 
 ```bash
+helm upgrade spring-integration-graph-viewer .
 helm uninstall spring-integration-graph-viewer
 ```
 
-### Accès (port-forward ou ingress)
+### Access
 
 ```bash
 kubectl port-forward svc/spring-integration-graph-viewer 8080:80
-# Accès sur http://localhost:8080
+# then visit http://localhost:8080
 ```
 
-> Tu peux aussi activer un Ingress (Nginx, Traefik, etc.) en modifiant `values.yaml`.
+---
+
+## Suggestions for Improvement
+
+1. **Badge Consistency**
+2. **Table of Contents**
+3. **Simplify "Getting Started"**
+4. **Add UI Screenshots**
+5. **Document Env Variables**
+6. **Live Demo Badge**
+7. **API Contract**
+8. **Versioning**

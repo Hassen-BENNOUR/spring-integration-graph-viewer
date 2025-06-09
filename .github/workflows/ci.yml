@@ -47,9 +47,12 @@ jobs:
           cd ${GITHUB_WORKSPACE}
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
+          git config token '${{ secrets.GITHUB_TOKEN }}'
           git add README.md
           git commit -m 'chore: update coverage summary [skip ci]' || echo "No changes"
           git push
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
