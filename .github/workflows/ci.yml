@@ -53,3 +53,15 @@ jobs:
         start: npm start
         wait-on: 'http://localhost:4199'
         wait-on-timeout: 60
+    - name: Upload coverage
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: coverage/spring-integration-graph-viewer
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: coverage
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
