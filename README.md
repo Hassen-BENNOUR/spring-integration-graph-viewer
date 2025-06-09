@@ -5,6 +5,12 @@
 ![Built With Docker](https://img.shields.io/badge/Built_With-Docker-informational?style=flat&logo=docker)
 &nbsp;
 ![CI](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/ci.yml/badge.svg)
+[![Build and Publish Docker GHCR image](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/docker-ghcr-publish.yml/badge.svg)](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/docker-ghcr-publish.yml)
+[![Deploy GitHub Pages](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/deploy-pages.yml)
+[![Build and Publish Docker Image](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/docker-publish.yml)
+[![Dependabot Updates](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/dependabot/dependabot-updates)
+[![Npm Publish Github Package](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/npm-publish-github-packages.yml/badge.svg)](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/npm-publish-github-packages.yml)
+
 
 <!-- coverage start -->
 `-----------------------------------------------------|---------|----------|---------|---------|------------------------------------------------------
