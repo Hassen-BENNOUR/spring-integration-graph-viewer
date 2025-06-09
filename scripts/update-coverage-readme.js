@@ -2,33 +2,27 @@
 const fs = require('fs');
 const path = require('path');
 
-// 1. Charger le résumé JSON
-const summaryPath = path.join(__dirname, '../coverage/coverage.txt');
-if (!fs.existsSync(summaryPath)) {
-    console.error('❌ coverage.txt introuvable');
-    process.exit(1);
-}
-// let {total} = JSON.parse(fs.readFileSync(summaryPath, 'utf8'));
-// // 2. Construire une table Markdown
-// const headers = ['Statements', 'Branches', 'Functions', 'Lines'];
-// const row = headers.map(key => {
-//     const metric = key.toLowerCase();
-//     return `${total[metric].pct}%`;
-// });
-// const table = [
-//     `| ${headers.join(' | ')} |`,
-//     `| ${headers.map(() => '---').join(' | ')} |`,
-//     `| ${row.join(' | ')} |`
-// ].join('\n');
+const summaryPath = path.join(__dirname, '../coverage/spring-integration-graph-viewer/coverage-summary.json');
+const readmePath  = path.join(__dirname, '../README.md');
+const summary     = JSON.parse(fs.readFileSync(summaryPath, 'utf8'));
 
-let table = fs.readFileSync(summaryPath, 'utf8');
+const total   = summary.total;
+const headers = ['Statements','Branches','Functions','Lines'];
+const rows = headers.map(key => {
+    const m   = key.toLowerCase();
+    const pct = total[m].pct.toFixed(2);
+    const label = encodeURIComponent(key);
+    const value = encodeURIComponent(pct + '%');
+    const url   = `https://img.shields.io/badge/${label}-${value}-yellow`;
+    return `![${key} coverage](${url})`; // ou adapte "Total" / nom de fichier
+});
 
-// 3. Injecter dans le README entre des marqueurs
-const readmePath = path.join(__dirname, '../README.md');
+const tableMd = [...rows].join('\n');
+
 let readme = fs.readFileSync(readmePath, 'utf8');
-const newReadme = readme.replace(
-    /<!-- coverage start -->([\s\S]*?)<!-- coverage end -->/,
-    `<!-- coverage start -->\n${table}\n<!-- coverage end -->`
+readme = readme.replace(
+    /<!-- coverage start -->[\s\S]*?<!-- coverage end -->/,
+    `<!-- coverage start -->\n${tableMd}\n<!-- coverage end -->`
 );
-fs.writeFileSync(readmePath, newReadme);
-console.log('✅ README.md mis à jour avec le coverage summary');
+fs.writeFileSync(readmePath, readme);
+console.log('✅ README.md mis à jour');

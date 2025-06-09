@@ -7,30 +7,10 @@
 ![CI](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/ci.yml/badge.svg)
 
 <!-- coverage start -->
------------------------------------------------------|---------|----------|---------|---------|------------------------------------------------------
-File                                                 | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s                                    
------------------------------------------------------|---------|----------|---------|---------|------------------------------------------------------
-All files                                            |   66.32 |    31.03 |   67.06 |   65.47 |                                                      
- src                                                 |     100 |      100 |     100 |     100 |                                                      
-  test.ts                                            |     100 |      100 |     100 |     100 |                                                      
- src/app                                             |     100 |      100 |     100 |     100 |                                                      
-  app.component.ts                                   |     100 |      100 |     100 |     100 |                                                      
- src/app/d3-arc-graph-viewer                         |   72.32 |    30.76 |   69.23 |   72.16 |                                                      
-  d3-arc-diagram-viewer.component.ts                 |   72.32 |    30.76 |   69.23 |   72.16 | 36-47,60,221-240,258-269,276                         
- src/app/d3-force-directed-curved-graph-viewer       |   68.13 |    31.81 |   65.78 |    67.9 |                                                      
-  d3-force-directed-curved-graph-viewer.component.ts |   68.13 |    31.81 |   65.78 |    67.9 | 35-46,59,199-218,231,250-263                         
- src/app/d3-force-directed-graph-viewer              |   68.13 |    31.81 |    67.5 |   68.67 |                                                      
-  d3-force-directed-graph-viewer.component.ts        |   68.13 |    31.81 |    67.5 |   68.67 | 36-47,60,193-212,229,248-264                         
- src/app/d3-indented-tree-viewer                     |    80.2 |    38.88 |    75.6 |   78.82 |                                                      
-  d3-indented-tree-viewer.component.ts               |    80.2 |    38.88 |    75.6 |   78.82 | 48-59,72,205-224,235                                 
- src/app/d3-tidy-tree-viewer                         |   70.51 |    36.95 |   65.38 |   70.62 |                                                      
-  d3-tidy-tree-viewer.component.ts                   |   70.51 |    36.95 |   65.38 |   70.62 | 48-59,72,200,218,232-239,273,299-300,311-332,342-361 
- src/app/main                                        |     100 |      100 |     100 |     100 |                                                      
-  main.component.ts                                  |     100 |      100 |     100 |     100 |                                                      
- src/app/services                                    |   37.28 |       20 |      50 |   35.96 |                                                      
-  load-graph.service.ts                              |   37.28 |       20 |      50 |   35.96 | 40-43,88,96-200                                      
------------------------------------------------------|---------|----------|---------|---------|------------------------------------------------------
-
+![Statements coverage](https://img.shields.io/badge/Statements-66.32%25-yellow)
+![Branches coverage](https://img.shields.io/badge/Branches-31.03%25-yellow)
+![Functions coverage](https://img.shields.io/badge/Functions-67.06%25-yellow)
+![Lines coverage](https://img.shields.io/badge/Lines-65.47%25-yellow)
 <!-- coverage end -->
 
 ----------------------------------
