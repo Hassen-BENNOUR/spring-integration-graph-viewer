@@ -1,8 +1,14 @@
 # Integration Graph UI (Angular)
 
+----------------------------------
+# Code Coverage Summary
+![Built With Docker](https://img.shields.io/badge/Built_With-Docker-informational?style=flat&logo=docker)
+&nbsp;
 ![CI](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/ci.yml/badge.svg)
+----------------------------------
+**Cette application Angular permet de visualiser dynamiquement les composants EIP exposés par Spring Integration via l’endpoint `/integrationgraph`.**
 
-Cette application Angular permet de visualiser dynamiquement les composants EIP exposés par Spring Integration via l’endpoint `/integrationgraph`.
+----------------------------------
 
 ## Fonctionnalités
 
@@ -14,6 +20,8 @@ Cette application Angular permet de visualiser dynamiquement les composants EIP 
 - Tests unitaires (Jasmine/Karma)
 - Tests end-to-end (Cypress)
 - Déploiement Docker ou intégration Spring Boot
+
+----------------------------------
 
 ## Installation
 
@@ -52,6 +60,8 @@ npx cypress open
 npm run cy:test
 ```
 
+----------------------------------
+
 ## Déploiement Docker
 **Building**
 ```bash
@@ -63,6 +73,8 @@ docker run -p 80:80 spring-integration-graph-viewer
 
 `docker pull ghcr.io/hassen-bennour/spring-integration-graph-viewer:main
 `
+----------------------------------
+
 ## Intégration Maven
 
 Le build et les tests peuvent être lancés automatiquement dans Maven :
@@ -71,21 +83,31 @@ Le build et les tests peuvent être lancés automatiquement dans Maven :
 mvn clean install
 ```
 
+----------------------------------
+
 ## Contribution
 
 Voir [CONTRIBUTING.md](CONTRIBUTING.md) pour contribuer à ce projet.
+
+----------------------------------
 
 ## Licence
 
 Distribué sous [Licence Apache 2.0](LICENSE).
 
+----------------------------------
+
 ## Historique
 
 Voir [CHANGELOG.md](CHANGELOG.md) pour les évolutions du projet.
 
+----------------------------------
+
 ## Code de conduite
 
 Ce projet suit un [Code de Conduite](CODE_OF_CONDUCT.md). Merci de le respecter.
+
+----------------------------------
 
 ## Déploiement sur Kubernetes avec Helm
 
