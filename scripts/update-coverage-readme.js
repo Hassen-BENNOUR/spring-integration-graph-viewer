@@ -3,24 +3,25 @@ const fs = require('fs');
 const path = require('path');
 
 // 1. Charger le résumé JSON
-const summaryPath = path.join(__dirname, '../coverage/spring-integration-graph-viewer/coverage-summary.json');
+const summaryPath = path.join(__dirname, '../coverage/coverage.txt');
 if (!fs.existsSync(summaryPath)) {
-    console.error('❌ coverage-summary.json introuvable');
+    console.error('❌ coverage.txt introuvable');
     process.exit(1);
 }
-const { total } = JSON.parse(fs.readFileSync(summaryPath, 'utf8'));
+// let {total} = JSON.parse(fs.readFileSync(summaryPath, 'utf8'));
+// // 2. Construire une table Markdown
+// const headers = ['Statements', 'Branches', 'Functions', 'Lines'];
+// const row = headers.map(key => {
+//     const metric = key.toLowerCase();
+//     return `${total[metric].pct}%`;
+// });
+// const table = [
+//     `| ${headers.join(' | ')} |`,
+//     `| ${headers.map(() => '---').join(' | ')} |`,
+//     `| ${row.join(' | ')} |`
+// ].join('\n');
 
-// 2. Construire une table Markdown
-const headers = ['Statements', 'Branches', 'Functions', 'Lines'];
-const row = headers.map(key => {
-    const metric = key.toLowerCase();
-    return `${total[metric].pct}%`;
-});
-const table = [
-    `| ${headers.join(' | ')} |`,
-    `| ${headers.map(() => '---').join(' | ')} |`,
-    `| ${row.join(' | ')} |`
-].join('\n');
+let table = fs.readFileSync(summaryPath, 'utf8');
 
 // 3. Injecter dans le README entre des marqueurs
 const readmePath = path.join(__dirname, '../README.md');

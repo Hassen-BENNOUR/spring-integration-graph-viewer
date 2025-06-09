@@ -43,7 +43,7 @@ jobs:
 
     - name: Update README with coverage
       run: |
-        cd frontend
+#        cd frontend
         npm run update-readme-coverage
         cd ..
         git config user.name "github-actions"
