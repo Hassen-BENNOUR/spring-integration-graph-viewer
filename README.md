@@ -55,7 +55,7 @@ Refer to our [Wiki guide →](https://github.com/Hassen-BENNOUR/spring-integrati
 
 ```bash
 # Frontend
-cd spring-integration-graph-viewer
+cd frontend
 npm install
 npm start
 ```
@@ -73,11 +73,11 @@ cd backend
 ## Building for Production
 
 ```bash
-cd frontend
+cd spring-integration-graph-viewer
 npm run build -- --configuration production
 ```
 
-The production build will be in `dist/spring-integration-graph-viewer/browser`.
+→ The production build will be in `dist/spring-integration-graph-viewer/browser`.
 
 ---
 
@@ -86,7 +86,7 @@ The production build will be in `dist/spring-integration-graph-viewer/browser`.
 ### Unit tests & HTML coverage
 
 ```bash
-cd frontend
+cd spring-integration-graph-viewer
 npm test
 ```
 
@@ -95,7 +95,7 @@ npm test
 ### E2E (Cypress)
 
 ```bash
-cd frontend
+cd spring-integration-graph-viewer
 npm run e2e
 ```
 
@@ -108,9 +108,8 @@ npm run e2e
 ```bash
 # Frontend
 cd spring-integration-graph-viewer
-docker build -t spring-integration-graph-viewer .
-docker run -p 80:80 spring-integration-graph-viewer
-
+docker build -t spring-integration-graph-viewer-frontend .
+docker run -p 80:80 spring-integration-graph-viewer-frontend
 ```
 
 ### GitHub Container Registry (GHCR)
@@ -124,7 +123,7 @@ docker pull ghcr.io/hassen-bennour/spring-integration-graph-viewer:main
 ## Maven Integration
 
 ```bash
-cd backend
+cd spring-integration-graph-viewer
 ./mvnw clean install
 ```
 
