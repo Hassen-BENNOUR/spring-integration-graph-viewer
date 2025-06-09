@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   spring-integration-graph-viewer:
-    image: hassen-bennour/spring-integration-graph-viewer:latest
+    image: hassen-bennour/spring-integration-graph-viewer:main
     ports:
       - "8080:80"
     restart: always

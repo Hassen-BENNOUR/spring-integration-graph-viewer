@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: <your-dockerhub-username>/spring-integration-graph-viewer
+  repository: hassen-bennour/spring-integration-graph-viewer:main
   pullPolicy: IfNotPresent
   tag: latest
 

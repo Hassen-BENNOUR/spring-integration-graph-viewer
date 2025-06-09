@@ -42,7 +42,6 @@ l’endpoint `/integrationgraph`.**
 - Affichage sous forme de graphe interactif (nœuds, liens fléchés)
 - Affichage détaillé des composants EIP avec image du pattern
 - Recherche et filtrage dynamique
-- Pagination
 - Tests unitaires (Jasmine/Karma)
 - Tests end-to-end (Cypress)
 - Déploiement Docker ou intégration Spring Boot
@@ -77,7 +76,7 @@ Le build de production sera disponible dans `dist/spring-integration-graph-viewe
 npm test
 ```
 
-Rapport généré : `coverage/spring-integration-graph-viewer/index.html`
+**Rapport généré : `coverage/spring-integration-graph-viewer/index.html`**
 
 ### Tests E2E (Cypress)
 
