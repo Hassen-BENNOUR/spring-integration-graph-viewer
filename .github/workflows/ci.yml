@@ -51,8 +51,6 @@ jobs:
           git add README.md
           git commit -m 'chore: update coverage summary [skip ci]' || echo "No changes"
           git push
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
