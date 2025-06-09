@@ -1,6 +1,5 @@
-/node_modules/
 /dist/
 /.angular/
 node_modules/
 dist/
-/coverage/
+coverage/

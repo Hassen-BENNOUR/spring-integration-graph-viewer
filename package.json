@@ -15,7 +15,8 @@
     "lint:check": "ng lint",
     "cypress": "cypress open",
     "cypress:test": "cypress run",
-    "codegen:encapsulate": "npx codegen encapsulate --scope mf-shared --library primeng18"
+    "codegen:encapsulate": "npx codegen encapsulate --scope mf-shared --library primeng18",
+    "update-readme-coverage": "node scripts/update-coverage-readme.js"
   },
   "private": true,
   "dependencies": {

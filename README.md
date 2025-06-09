@@ -5,10 +5,19 @@
 ![Built With Docker](https://img.shields.io/badge/Built_With-Docker-informational?style=flat&logo=docker)
 &nbsp;
 ![CI](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/ci.yml/badge.svg)
+
+
+<!-- coverage start -->
+| Statements | Branches | Functions | Lines |
+| --- | --- | --- | --- |
+| 65.28% | 31.03% | 64.68% | 64.33% |
+<!-- coverage end -->
 ----------------------------------
 **Cette application Angular permet de visualiser dynamiquement les composants EIP exposés par Spring Integration via l’endpoint `/integrationgraph`.**
 
 ----------------------------------
+
+## [**Demo available here**](https://hassen-bennour.github.io/spring-integration-graph-viewer/)
 
 ## Fonctionnalités
 
