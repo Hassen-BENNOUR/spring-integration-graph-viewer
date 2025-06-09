@@ -53,12 +53,16 @@ npm run cy:test
 ```
 
 ## Déploiement Docker
-
+**Building**
 ```bash
 docker build -t spring-integration-graph-viewer .
 docker run -p 80:80 spring-integration-graph-viewer
 ```
 
+**Using GHCR**
+
+`docker pull ghcr.io/hassen-bennour/spring-integration-graph-viewer:main
+`
 ## Intégration Maven
 
 Le build et les tests peuvent être lancés automatiquement dans Maven :
