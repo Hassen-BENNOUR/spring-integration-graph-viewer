@@ -49,7 +49,7 @@ jobs:
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
         git add README.md
-        git commit -m "chore: update coverage badges [skip ci]" || echo "No changes"
+        git commit -m 'chore: update coverage badges [skip ci]' || echo "No changes"
         git push
 
     - name: Upload coverage report
