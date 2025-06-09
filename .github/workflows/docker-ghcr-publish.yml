@@ -79,10 +79,10 @@ jobs:
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
             ${{ steps.meta.outputs.tags }}
-            org.opencontainers.image.version: latest
+            org.opencontainers.image.version: 'latest'
           labels: |
             ${{ steps.meta.outputs.labels }}
-            org.opencontainers.image.version: latest
+            org.opencontainers.image.version: 'latest'
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
