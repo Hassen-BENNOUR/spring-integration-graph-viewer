@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 20
       - run: npm install
-      - run: npm ci
+#      - run: npm ci
       - run: npm i
       - run: npm test
 
