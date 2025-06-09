@@ -12,55 +12,54 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [ 18.x ]
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: Install dependencies
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: Install Google Chrome
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y fonts-liberation xdg-utils
-        curl -fsSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o chrome.deb
-        sudo dpkg -i chrome.deb || sudo apt-get -f install -y
-        rm chrome.deb
+      - name: Install Google Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-liberation xdg-utils
+          curl -fsSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o chrome.deb
+          sudo dpkg -i chrome.deb || sudo apt-get -f install -y
+          rm chrome.deb
 
-    - name: Build project
-      run: npm run build
+      - name: Build project
+        run: npm run build
 
-    - name: Run unit tests
-      run: npm test 
-      env:
-        CHROME_BIN: google-chrome-stable
+      - name: Run unit tests
+        run: npm test
+        env:
+          CHROME_BIN: google-chrome-stable
 
-    - name: Update README with coverage
-      run: |
-#        cd frontend
-        npm run update-readme-coverage
-        cd ..
-        git config user.name "github-actions"
-        git config user.email "github-actions@github.com"
-        git add README.md
-        git commit -m 'chore: update coverage badges [skip ci]' || echo "No changes"
-        git push
+      - name: Update README with coverage
+        run: |
+          npm ci
+          npm run update-coverage-readme
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add README.md
+          git commit -m 'chore: update coverage summary [skip ci]' || echo "No changes"
+          git push
 
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v4
-      with:
-        name: coverage-report
-        path: coverage/spring-integration-graph-viewer
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/spring-integration-graph-viewer
 
-    - name: Cypress run
-      uses: cypress-io/github-action@v6
-      with:
-        start: npm start
-        wait-on: 'http://localhost:4199'
-        wait-on-timeout: 60
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm start
+          wait-on: 'http://localhost:4199'
+          wait-on-timeout: 60
