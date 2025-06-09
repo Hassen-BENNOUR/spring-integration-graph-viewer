@@ -1,7 +1,9 @@
 # Integration Graph UI (Angular)
 
 ----------------------------------
+
 # Code Coverage Summary
+
 ![Built With Docker](https://img.shields.io/badge/Built_With-Docker-informational?style=flat&logo=docker)
 &nbsp;
 ![CI](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/ci.yml/badge.svg)
@@ -40,11 +42,19 @@ All files                                            |   66.32 |    31.03 |   67
 <!-- coverage end -->
 
 ----------------------------------
-**Cette application Angular permet de visualiser dynamiquement les composants EIP exposés par Spring Integration via l’endpoint `/integrationgraph`.**
+**Cette application Angular permet de visualiser dynamiquement les composants EIP exposés par Spring Integration via
+l’endpoint `/integrationgraph`.**
 
 ----------------------------------
 
 ## [**Demo available here**](https://hassen-bennour.github.io/spring-integration-graph-viewer/)
+
+----------------------------------
+
+## How to visualize a Spring Integration graph ?
+**Take a look at the** [wiki](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/wiki#how-to-visualize-a-spring-integration-graph-) !
+
+-----------------------
 
 ## Fonctionnalités
 
@@ -64,6 +74,7 @@ All files                                            |   66.32 |    31.03 |   67
 ```bash
 npm install
 ```
+
 ```bash
 npm start
 ```
@@ -99,7 +110,9 @@ npm run cy:test
 ----------------------------------
 
 ## Déploiement Docker
+
 **Building**
+
 ```bash
 docker build -t spring-integration-graph-viewer .
 docker run -p 80:80 spring-integration-graph-viewer
