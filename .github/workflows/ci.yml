@@ -51,12 +51,6 @@ jobs:
           git commit -m 'chore: update coverage summary [skip ci]' || echo "No changes"
           git push
 
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-report
-          path: coverage/spring-integration-graph-viewer
-
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
