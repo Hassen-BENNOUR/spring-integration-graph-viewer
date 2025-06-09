@@ -13,12 +13,10 @@
 [![npm Package](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/npm-publish-github-packages.yml/badge.svg)]()
 
 <!-- coverage start -->
-| Metric     | Coverage                                          |
-|------------|---------------------------------------------------|
-| Statements | ![Statements coverage](https://img.shields.io/badge/Statements-66.32%25-yellow) |
-| Branches   | ![Branches coverage](https://img.shields.io/badge/Branches-31.03%25-yellow)     |
-| Functions  | ![Functions coverage](https://img.shields.io/badge/Functions-67.06%25-yellow)   |
-| Lines      | ![Lines coverage](https://img.shields.io/badge/Lines-65.47%25-yellow)           |
+![Statements coverage](https://img.shields.io/badge/Statements-66.32%25-yellow)
+![Branches coverage](https://img.shields.io/badge/Branches-31.03%25-yellow)
+![Functions coverage](https://img.shields.io/badge/Functions-67.06%25-yellow)
+![Lines coverage](https://img.shields.io/badge/Lines-65.47%25-yellow)
 <!-- coverage end -->
 
 ---
