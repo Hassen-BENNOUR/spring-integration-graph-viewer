@@ -47,9 +47,10 @@ jobs:
           cd ${GITHUB_WORKSPACE}
           git config user.name ${{ github.actor }}
           git config user.email "github-actions@github.com"
-          git config token '${{ secrets.GITHUB_TOKEN }}'
+#          git config token '${{ secrets.GITHUB_TOKEN }}'
           git add README.md
           git commit -m 'chore: update coverage summary [skip ci]' || echo "No changes"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Hassen-BENNOUR/spring-integration-graph-viewer.git
           git push
 
       - name: Cypress run
