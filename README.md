@@ -2,7 +2,7 @@
 
 ---
 
-## Code Coverage & Status
+## Code Status
 
 [![Built With Docker](https://img.shields.io/badge/Built_With-Docker-informational?style=flat&logo=docker)]()
 [![CI](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/ci.yml/badge.svg)]()
@@ -12,6 +12,10 @@
 [![Dependabot](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/dependabot/dependabot-updates/badge.svg)]()
 [![npm Package](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/npm-publish-github-packages.yml/badge.svg)]()
 [![Java CI with Maven](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/maven.yml/badge.svg)](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/maven.yml)
+
+---
+
+## Code Coverage
 
 <!-- coverage start -->
 ![Statements coverage](https://img.shields.io/badge/Statements-66.32%25-yellow)
