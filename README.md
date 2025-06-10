@@ -11,6 +11,7 @@
 [![GitHub Pages](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/deploy-pages.yml/badge.svg)]()
 [![Dependabot](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/dependabot/dependabot-updates/badge.svg)]()
 [![npm Package](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/npm-publish-github-packages.yml/badge.svg)]()
+[![Java CI with Maven](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/maven.yml/badge.svg)](https://github.com/Hassen-BENNOUR/spring-integration-graph-viewer/actions/workflows/maven.yml)
 
 <!-- coverage start -->
 ![Statements coverage](https://img.shields.io/badge/Statements-66.32%25-yellow)
@@ -52,19 +53,13 @@ Refer to our [Wiki guide →](https://github.com/Hassen-BENNOUR/spring-integrati
 ## Installation
 
 ```bash
-# Frontend
+# NPM
 cd spring-integration-graph-viewer
 npm install
 npm start
 ```
 
 Then open [http://localhost:4200](http://localhost:4200).
-
-```bash
-# Backend (optional)
-cd spring-integration-graph-viewer
-./mvn spring-boot:run
-```
 
 ---
 
@@ -122,7 +117,7 @@ docker pull ghcr.io/hassen-bennour/spring-integration-graph-viewer:main
 
 ```bash
 cd spring-integration-graph-viewer
-./mvnw clean install
+./mvn clean install
 ```
 
 ---
