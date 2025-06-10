@@ -41,9 +41,9 @@ Refer to our [Wiki guide →](https://github.com/Hassen-BENNOUR/spring-integrati
 
 - **Dynamic data fetch** from `/integrationgraph` endpoint
 - **Multiple D3 visualizations**: tree, force-directed, curved, indented, arc, tidy tree
-- **Interactive UI**: pan/zoom, tooltips, (click for details, coming soon)
+- **Interactive UI**: pan/zoom, tooltips (coming soon), click for details (coming soon)
 - **EIP pattern images** fetched from enterpriseintegrationpatterns.com (coming soon)
-- **Search & filter (highlighting for now, filters coming soon** by component name, type, class, pattern category
+- **Search & filter (highlighting for now, filters coming soon)** by component name, type, class, pattern category
 - **Unit tests** (Jasmine / Karma) with coverage report
 - **E2E tests** (Cypress, headless & CI-ready)
 - **Dockerized** frontend
