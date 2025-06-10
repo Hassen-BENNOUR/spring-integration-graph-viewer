@@ -1,23 +1,23 @@
-# Contribuer au projet
+# Contribute to the Project
 
-Merci de vouloir contribuer à ce projet !
+Thank you for contributing to this project!
 
-## Propositions de fonctionnalités
+## Feature Suggestions
 
-- Ouvrez une `issue` décrivant clairement la fonctionnalité souhaitée.
-- Discutez des alternatives si nécessaire.
+- Open an issue clearly describing the desired feature.
+- Discuss alternatives if necessary.
 
 ## Bugs
 
-- Ouvrez une `issue` avec un exemple reproductible.
-- Ajoutez les logs/erreurs dans le contexte.
+- Open an issue with a reproducible example.
+- Add logs/errors in context.
 
 ## Pull Requests
 
-1. Forkez ce dépôt.
-2. Créez une branche (`git checkout -b feature-nouvelle`).
-3. Committez vos modifications (`git commit -am 'Ajout d'une nouvelle fonctionnalité'`).
-4. Poussez sur votre fork (`git push origin feature-nouvelle`).
-5. Créez une pull request.
+1. Fork this repository.
+2. Create a branch (`git checkout -b feature-new`).
+3. Commit your changes (`git commit -am 'Adding a new feature').
+4. Push to your fork (`git push origin feature-new`).
+5. Create a pull request.
 
-Merci pour votre aide !
+Thanks for your help!

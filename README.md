@@ -53,7 +53,7 @@ Refer to our [Wiki guide →](https://github.com/Hassen-BENNOUR/spring-integrati
 
 ```bash
 # Frontend
-cd frontend
+cd spring-integration-graph-viewer
 npm install
 npm start
 ```
@@ -62,8 +62,8 @@ Then open [http://localhost:4200](http://localhost:4200).
 
 ```bash
 # Backend (optional)
-cd backend
-./mvnw spring-boot:run
+cd spring-integration-graph-viewer
+./mvn spring-boot:run
 ```
 
 ---
